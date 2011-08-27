@@ -1,7 +1,4 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
- *
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -26,17 +23,17 @@ EndScriptData */
 
 #include "precompiled.h"
 
-enum
-{
-    SPELL_DUSTFIELD       = 21909,
-    SPELL_BOULDER         = 21832,
-    SPELL_THRASH          = 3391,
-    SPELL_REPULSIVEGAZE   = 21869
-};
+
+
+#define SPELL_DUSTFIELD       21909
+#define SPELL_BOULDER         21832
+#define SPELL_THRASH          3391
+#define SPELL_REPULSIVEGAZE   21869
+
 
 struct MANGOS_DLL_DECL boss_ptheradrasAI : public ScriptedAI
 {
-    boss_ptheradrasAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
+	boss_ptheradrasAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
     uint32 Dustfield_Timer;
     uint32 Boulder_Timer;
@@ -62,14 +59,14 @@ struct MANGOS_DLL_DECL boss_ptheradrasAI : public ScriptedAI
             return;
 
         //Dustfield_Timer
-        if (Dustfield_Timer < diff)
+        if (Dustfield_Timer <= diff)
         {
             DoCastSpellIfCan(m_creature,SPELL_DUSTFIELD);
             Dustfield_Timer = 14000;
         }else Dustfield_Timer -= diff;
 
         //Boulder_Timer
-        if (Boulder_Timer < diff)
+        if (Boulder_Timer <= diff)
         {
             Unit* target = NULL;
             target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
@@ -79,14 +76,14 @@ struct MANGOS_DLL_DECL boss_ptheradrasAI : public ScriptedAI
         }else Boulder_Timer -= diff;
 
         //RepulsiveGaze_Timer
-        if (RepulsiveGaze_Timer < diff)
+        if (RepulsiveGaze_Timer <= diff)
         {
             DoCastSpellIfCan(m_creature->getVictim(),SPELL_REPULSIVEGAZE);
             RepulsiveGaze_Timer = 20000;
         }else RepulsiveGaze_Timer -= diff;
 
         //Thrash_Timer
-        if (Thrash_Timer < diff)
+        if (Thrash_Timer <= diff)
         {
             DoCastSpellIfCan(m_creature,SPELL_THRASH);
             Thrash_Timer = 18000;
@@ -98,14 +95,14 @@ struct MANGOS_DLL_DECL boss_ptheradrasAI : public ScriptedAI
 CreatureAI* GetAI_boss_ptheradras(Creature* pCreature)
 {
     return new boss_ptheradrasAI(pCreature);
-}
+} 
 
 void AddSC_boss_ptheradras()
 {
     Script* pNewScript;
 
-    pNewScript = new Script;
-    pNewScript->Name = "boss_princess_theradras";
-    pNewScript->GetAI = &GetAI_boss_ptheradras;
-    pNewScript->RegisterSelf();
+	pNewScript = new Script;
+	pNewScript->Name = "boss_princess_theradras";
+	pNewScript->GetAI = &GetAI_boss_ptheradras;
+	pNewScript->RegisterSelf();
 }

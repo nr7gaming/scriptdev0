@@ -1,7 +1,4 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
- *
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -26,12 +23,11 @@ EndScriptData */
 
 #include "precompiled.h"
 
-enum
-{
-    SPELL_KNOCKAWAY   = 18670,
-    SPELL_TRAMPLE     = 5568,
-    SPELL_LANDSLIDE   = 21808
-};
+
+#define SPELL_KNOCKAWAY    18670
+#define SPELL_TRAMPLE      5568
+#define SPELL_LANDSLIDE    21808
+
 
 struct MANGOS_DLL_DECL boss_landslideAI : public ScriptedAI
 {
