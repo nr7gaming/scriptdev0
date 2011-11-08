@@ -1,7 +1,4 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
- *
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -25,13 +22,17 @@ SDCategory: Blackrock Spire
 EndScriptData */
 
 #include "precompiled.h"
+#include "blackrock_spire.h"
 
-enum
-{
-    SPELL_FLAMEBREAK     = 16785,
-    SPELL_IMMOLATE       = 20294,
-    SPELL_TERRIFYINGROAR = 14100
-};
+
+#define    SPELL_FLAMEBREAK      16785
+#define    SPELL_IMMOLATE		 15570							//20294
+#define    SPELL_TERRIFYINGROAR  14100
+#define	   SPELL_BERSERKERCHARGE 16636
+#define	   SPELL_FIREBLAST		 16144
+#define	   SPELL_FIREBALL		 16788
+
+
 
 struct MANGOS_DLL_DECL boss_thebeastAI : public ScriptedAI
 {
@@ -40,12 +41,18 @@ struct MANGOS_DLL_DECL boss_thebeastAI : public ScriptedAI
     uint32 m_uiFlamebreakTimer;
     uint32 m_uiImmolateTimer;
     uint32 m_uiTerrifyingRoarTimer;
+	uint32 m_uiBerserkerChargeTimer;
+	uint32 m_uiFireBlastTimer;
+	uint32 m_uiFireBallTimer;
 
     void Reset()
     {
         m_uiFlamebreakTimer     = 12000;
         m_uiImmolateTimer       = 3000;
         m_uiTerrifyingRoarTimer = 23000;
+		m_uiBerserkerChargeTimer = 48000;
+		m_uiFireBlastTimer		= 15000;
+		m_uiFireBallTimer		= 25000;
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -82,6 +89,31 @@ struct MANGOS_DLL_DECL boss_thebeastAI : public ScriptedAI
         }
         else
             m_uiTerrifyingRoarTimer -= uiDiff;
+
+		// BerserkerCharge
+		if (m_uiBerserkerChargeTimer < uiDiff)
+		{
+			DoCastSpellIfCan(m_creature, SPELL_BERSERKERCHARGE);
+			m_uiBerserkerChargeTimer = 45000;
+		}
+		else 
+			m_uiBerserkerChargeTimer -= uiDiff;
+
+		// FireBlast
+		if (m_uiFireBlastTimer < uiDiff)
+		{
+			DoCastSpellIfCan(m_creature, SPELL_FIREBLAST);
+				m_uiFireBlastTimer = 12000;
+		}
+		else m_uiFireBlastTimer -= uiDiff;
+
+		// Fireball
+		if (m_uiFireBallTimer < uiDiff)
+		{
+			DoCastSpellIfCan(m_creature, SPELL_FIREBALL);
+				m_uiFireBallTimer = 23000;
+		}
+		else m_uiFireBallTimer -= uiDiff;
 
         DoMeleeAttackIfReady();
     }

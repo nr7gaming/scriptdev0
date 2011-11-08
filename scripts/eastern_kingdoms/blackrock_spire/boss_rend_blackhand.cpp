@@ -1,7 +1,4 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
- *
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -25,13 +22,15 @@ SDCategory: Blackrock Spire
 EndScriptData */
 
 #include "precompiled.h"
+#include "blackrock_spire.h"
 
-enum
-{
-    SPELL_WHIRLWIND   = 26038,
-    SPELL_CLEAVE      = 20691,
-    SPELL_THUNDERCLAP = 23931                               //Not sure if he cast this spell
-};
+
+#define    SPELL_WHIRLWIND		15589	  							//26038
+#define    SPELL_CLEAVE			15284								//20691
+//#define    SPELL_THUNDERCLAP  23931                               //Not sure if he cast this spell. ****this spell use this boss not.
+#define	   SPELL_FRENZY			8269								// boss use this spell, information from old.wowhead.com
+#define	   SPELL_MORTAL_STRIKE	16856								// boss use this spell, information from old.wwohead.com
+
 
 struct MANGOS_DLL_DECL boss_rend_blackhandAI : public ScriptedAI
 {
@@ -39,13 +38,17 @@ struct MANGOS_DLL_DECL boss_rend_blackhandAI : public ScriptedAI
 
     uint32 m_uiWhirlWindTimer;
     uint32 m_uiCleaveTimer;
-    uint32 m_uiThunderclapTimer;
+   // uint32 m_uiThunderclapTimer;
+	uint32 m_uiFrenzyTimer;
+	uint32 m_uiMortalStrikeTimer;
 
     void Reset()
     {
-        m_uiWhirlWindTimer   = 20000;
-        m_uiCleaveTimer      = 5000;
-        m_uiThunderclapTimer = 9000;
+        m_uiWhirlWindTimer		= 20000;
+        m_uiCleaveTimer			= 5000;
+       // m_uiThunderclapTimer = 9000;,
+		m_uiFrenzyTimer			= 9000;
+		m_uiMortalStrikeTimer	= 15000;
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -71,7 +74,7 @@ struct MANGOS_DLL_DECL boss_rend_blackhandAI : public ScriptedAI
         }
         else
             m_uiCleaveTimer -= uiDiff;
-
+		/*
         // Thunderclap
         if (m_uiThunderclapTimer < uiDiff)
         {
@@ -79,7 +82,26 @@ struct MANGOS_DLL_DECL boss_rend_blackhandAI : public ScriptedAI
             m_uiThunderclapTimer = 16000;
         }
         else
-            m_uiThunderclapTimer -= uiDiff;
+            m_uiThunderclapTimer -= uiDiff; */
+
+		// Frenzy
+		if (m_uiFrenzyTimer < uiDiff)
+		{
+			DoCastSpellIfCan(m_creature, SPELL_FRENZY);
+			m_uiFrenzyTimer = 16000;
+		}
+		else
+			m_uiFrenzyTimer -= uiDiff;
+
+		// MortalStrike
+		if (m_uiMortalStrikeTimer < uiDiff)
+		{
+			if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+			DoCastSpellIfCan(pTarget, SPELL_MORTAL_STRIKE);
+				m_uiMortalStrikeTimer = 12500;
+		}
+		else
+			m_uiMortalStrikeTimer -= uiDiff;
 
         DoMeleeAttackIfReady();
     }

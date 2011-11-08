@@ -1,7 +1,4 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
- *
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -27,23 +24,23 @@ EndScriptData */
 #include "precompiled.h"
 #include "blackrock_spire.h"
 
-enum
-{
-    SPELL_CORROSIVEACID     = 20667,
-    SPELL_FREEZE            = 16350,                        // ID was wrong!
-    SPELL_FLAMEBREATH       = 20712,
-    SPELL_ROOT_SELF         = 33356,
 
-    MODEL_ID_INVISIBLE      = 11686,
-    MODEL_ID_GYTH_MOUNTED   = 9723,
-    MODEL_ID_GYTH           = 9806,
+#define    SPELL_CORROSIVEACID		16359						//20667, spell id is from old.wowhead.com
+#define    SPELL_FREEZE             16350                       // ID was wrong!
+#define    SPELL_FLAMEBREATH		16390						 //20712, spell id is from old.wowhead.com
+#define    SPELL_ROOT_SELF          33356
+#define	   SPELL_KNOCK_AWAY			10101						// this spell use this boss, information from old.wowhead.com
+#define	   SPELL_SUMMONREND			16328						// summon Boss Rend blackhand
 
-    NPC_FIRE_TONGUE         = 10372,
-    NPC_CHROMATIC_WHELP     = 10442,
-    NPC_CHROMATIC_DRAGON    = 10447,
-    NPC_BLACKHAND_ELITE     = 10317,
-    NPC_REND_BLACKHAND      = 10429
-};
+#define    MODEL_ID_INVISIBLE		11686
+#define    MODEL_ID_GYTH_MOUNTED	9723
+#define    MODEL_ID_GYTH			9806
+
+#define    NPC_FIRE_TONGUE          10372
+#define    NPC_CHROMATIC_WHELP      10442
+#define    NPC_CHROMATIC_DRAGON     10447
+#define    NPC_BLACKHAND_ELITE      10317
+#define    NPC_REND_BLACKHAND       10429
 
 struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 {
@@ -61,6 +58,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
     uint32 uiCorrosiveAcidTimer;
     uint32 uiFreezeTimer;
     uint32 uiFlamebreathTimer;
+	uint32 uiKnockAwayTimer;
     uint32 uiLine1Count;
     uint32 uiLine2Count;
 
@@ -76,6 +74,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         uiCorrosiveAcidTimer = 8000;
         uiFreezeTimer = 11000;
         uiFlamebreathTimer = 4000;
+		uiKnockAwayTimer = 20000;
         m_bSummonedRend = false;
         m_bAggro = false;
         m_bRootSelf = false;
@@ -103,6 +102,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
     {
         if (m_pInstance)
             m_pInstance->SetData(TYPE_GYTH, DONE);
+			DoCastSpellIfCan(m_creature, SPELL_SUMMONREND);
     }
 
     void JustReachedHome()
@@ -218,6 +218,23 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             }
             else
                 uiFlamebreathTimer -= uiDiff;
+			
+			// KNockAway_Timer
+			if (uiKnockAwayTimer < uiDiff)
+			{
+				DoCastSpellIfCan(m_creature, SPELL_KNOCK_AWAY);
+				uiKnockAwayTimer = 25000;
+			}
+			else
+				uiKnockAwayTimer -= uiDiff;
+/*
+			if (me->isDead)
+			{
+				DoCastSpellIfCan(m_creature, SPELL_SUMMONREND)
+			}
+			else 
+				return; */
+
 
             //Summon Rend
             if (!m_bSummonedRend && m_creature->GetHealthPercent() < 11.0f)
