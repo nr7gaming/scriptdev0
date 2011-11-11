@@ -252,7 +252,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         }                                                   // end if Aggro
     }
 };
-
+// test
 CreatureAI* GetAI_boss_gyth(Creature* pCreature)
 {
     return new boss_gythAI(pCreature);
