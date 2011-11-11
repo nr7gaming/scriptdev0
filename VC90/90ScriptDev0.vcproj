@@ -1294,6 +1294,10 @@
 						RelativePath="..\scripts\eastern_kingdoms\sunken_temple\sunken_temple.h"
 						>
 					</File>
+					<File
+						RelativePath="..\scripts\eastern_kingdoms\sunken_temple\boss_jammalan.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="uldaman"
