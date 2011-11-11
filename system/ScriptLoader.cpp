@@ -131,6 +131,7 @@ extern void AddSC_instance_stratholme();
 extern void AddSC_stratholme();
 extern void AddSC_instance_sunken_temple();                 //sunken_temple
 extern void AddSC_sunken_temple();
+extern void AddSC_boss_jammalan();
 extern void AddSC_boss_archaedas();                         //uldaman
 extern void AddSC_boss_ironaya();
 extern void AddSC_uldaman();
@@ -348,6 +349,7 @@ void AddScripts()
     AddSC_stratholme();
     AddSC_instance_sunken_temple();                         //sunken_temple
     AddSC_sunken_temple();
+	AddSC_boss_jammalan();
     AddSC_boss_archaedas();                                 //uldaman
     AddSC_boss_ironaya();
     AddSC_uldaman();
