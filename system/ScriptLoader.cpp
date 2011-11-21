@@ -180,6 +180,8 @@ extern void AddSC_wetlands();
 extern void AddSC_instance_blackfathom_deeps();             //blackfathom_deeps
 extern void AddSC_dire_maul();                              //dire_maul
 extern void AddSC_instance_dire_maul();
+extern void AddSC_boss_king_gordok();
+extern void AddSC_Mizzle();
 extern void AddSC_boss_celebras_the_cursed();               //maraudon
 extern void AddSC_boss_landslide();
 extern void AddSC_boss_noxxion();
@@ -397,6 +399,8 @@ void AddScripts()
     AddSC_instance_blackfathom_deeps();                     //blackfathom_deeps
     AddSC_dire_maul();                                      //dire_maul
     AddSC_instance_dire_maul();
+	AddSC_boss_king_gordok();								// dire maul - Boss King Gordok
+	AddSC_Mizzle();
     AddSC_boss_celebras_the_cursed();                       //maraudon
     AddSC_boss_landslide();
     AddSC_boss_noxxion();
