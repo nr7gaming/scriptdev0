@@ -33,7 +33,8 @@ instance_stratholme::instance_stratholme(Map* pMap) : ScriptedInstance(pMap),
     m_uiMindlessSummonTimer(0),
     m_uiSlaugtherSquareTimer(0),
     m_uiYellCounter(0),
-    m_uiMindlessCount(0)
+    m_uiMindlessCount(0),
+    m_ysidaTriggerGUID(0)
 {
     Initialize();
 }
@@ -66,6 +67,7 @@ void instance_stratholme::OnCreatureCreate(Creature* pCreature)
     {
         case NPC_BARON:
         case NPC_YSIDA_TRIGGER:
+            m_ysidaTriggerGUID = pCreature->GetEntry(); break;
         case NPC_BARTHILAS:
             m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
             break;
@@ -171,6 +173,10 @@ void instance_stratholme::SetData(uint32 uiType, uint32 uiData)
                     break;
                 case DONE:
                     m_uiBaronRunTimer = 0;
+                    if (Creature* pYsidaT = instance->GetCreature(m_ysidaTriggerGUID))
+                        pYsidaT->SummonCreature(NPC_YSIDA ,
+                        pYsidaT->GetPositionX(),pYsidaT->GetPositionY(),pYsidaT->GetPositionZ(),pYsidaT->GetOrientation(),
+                        TEMPSUMMON_TIMED_DESPAWN,1800000);
                     break;
             }
             m_auiEncounter[uiType] = uiData;

@@ -62,6 +62,7 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
     {
         if (m_pInstance)
             m_pInstance->SetData(TYPE_EMBERSEER, DONE);
+		sLog.outDebug("Instanze: Set Data(Type_embresser, Done");
     }
 
     void JustReachedHome()

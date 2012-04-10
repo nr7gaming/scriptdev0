@@ -51,7 +51,7 @@ bool GOUse_go_service_gate(Player* pPlayer, GameObject* pGo)
     // if the service gate is used make Barthilas flee
     pInstance->SetData(TYPE_BARTHILAS_RUN, IN_PROGRESS);
     return false;
-}
+} 
 
 /*######
 ## go_gauntlet_gate (this is the _first_ of the gauntlet gates, two exist)
@@ -75,19 +75,62 @@ bool GOUse_go_gauntlet_gate(Player* pPlayer, GameObject* pGo)
             if (!pGroupie)
                 continue;
 
-            if (!pGroupie->HasAura(SPELL_BARON_ULTIMATUM))
+            if (pGroupie->GetQuestStatus(QUEST_DEAD_MAN_PLEA) == QUEST_STATUS_INCOMPLETE &&
+                !pGroupie->HasAura(SPELL_BARON_ULTIMATUM) &&
+                pGroupie->GetMap() == pGo->GetMap())
                 pGroupie->CastSpell(pGroupie, SPELL_BARON_ULTIMATUM, true);
         }
     }
     else
     {
-        if (!pPlayer->HasAura(SPELL_BARON_ULTIMATUM))
+        if (pPlayer->GetQuestStatus(QUEST_DEAD_MAN_PLEA) == QUEST_STATUS_INCOMPLETE &&
+            !pPlayer->HasAura(SPELL_BARON_ULTIMATUM) &&
+            pPlayer->GetMap() == pGo->GetMap())
             pPlayer->CastSpell(pPlayer, SPELL_BARON_ULTIMATUM, true);
     }
 
     pInstance->SetData(TYPE_BARON_RUN, IN_PROGRESS);
     return false;
-}
+} 
+/*
+class go_gauntlet_gate : public GameObjectScript
+{
+public:
+    go_gauntlet_gate() : GameObjectScript("go_gauntlet_gate") { }
+
+    bool OnGossipHello(Player* player, GameObject* go)
+    {
+        InstanceScript* instance = go->GetInstanceScript();
+
+        if (!instance)
+            return false;
+
+        if (instance->GetData(TYPE_BARON_RUN) != NOT_STARTED)
+            return false;
+
+        if (Group* group = player->GetGroup())
+        {
+            for (GroupReference* itr = group->GetFirstMember(); itr != NULL; itr = itr->next())
+            {
+                Player* pGroupie = itr->getSource();
+                if (!pGroupie)
+                    continue;
+
+                if (pGroupie->GetQuestStatus(QUEST_DEAD_MAN_PLEA) == QUEST_STATUS_INCOMPLETE &&
+                    !pGroupie->HasAura(SPELL_BARON_ULTIMATUM) &&
+                    pGroupie->GetMap() == go->GetMap())
+                    pGroupie->CastSpell(pGroupie, SPELL_BARON_ULTIMATUM, true);
+            }
+        } else if (player->GetQuestStatus(QUEST_DEAD_MAN_PLEA) == QUEST_STATUS_INCOMPLETE &&
+                    !player->HasAura(SPELL_BARON_ULTIMATUM) &&
+                    player->GetMap() == go->GetMap())
+                    player->CastSpell(player, SPELL_BARON_ULTIMATUM, true);
+
+        instance->SetData(TYPE_BARON_RUN, IN_PROGRESS);
+        return false;
+    }
+
+}; */
 
 /*######
 ## mob_freed_soul
