@@ -790,12 +790,17 @@
     <ClCompile Include="..\scripts\kalimdor\durotar.cpp">
       <Filter>scripts\kalimdor</Filter>
     </ClCompile>
-    <ClCompile Include="..\scripts\eastern_kingdoms\sunken_temple\boss_jammalan.cpp" />
     <ClCompile Include="..\scripts\kalimdor\dire_maul\boss_king_gordok.cpp">
       <Filter>scripts\kalimdor\dire_maul</Filter>
     </ClCompile>
     <ClCompile Include="..\scripts\kalimdor\dire_maul\Mizzle.cpp">
       <Filter>scripts\kalimdor\dire_maul</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\eastern_kingdoms\blackrock_depths\boss_ribbly.cpp">
+      <Filter>scripts\eastern_kingdoms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\eastern_kingdoms\sunken_temple\boss_jammalan.cpp">
+      <Filter>scripts\eastern_kingdoms\sunken_temple</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
