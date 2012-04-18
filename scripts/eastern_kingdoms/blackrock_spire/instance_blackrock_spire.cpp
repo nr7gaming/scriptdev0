@@ -87,7 +87,7 @@ void instance_blackrock_spire::OnObjectCreate(GameObject* pGo)
             if (GetData(TYPE_EMBERSEER) == DONE)
 				// HandleGameObject(m_uiEmberseerOutDoorGUID, true);
                pGo->SetGoState(GO_STATE_ACTIVE);
-			sLog.outDebug("HandleGameObject true");
+			//sLog.outDebug("HandleGameObject true");
             break;
         case GO_GYTH_ENTRY_DOOR:
             m_uiGythEntryDoorGUID = pGo->GetObjectGuid();

@@ -238,6 +238,9 @@ extern void AddSC_thunder_bluff();
 extern void AddSC_ungoro_crater();
 extern void AddSC_winterspring();
 
+// extern
+extern void AddSC_boss_ribbly();
+
 void AddScripts()
 {
     //battlegrounds
@@ -457,5 +460,8 @@ void AddScripts()
     AddSC_thunder_bluff();
     AddSC_ungoro_crater();
     AddSC_winterspring();
+
+    // extern
+    AddSC_boss_ribbly();
 
 }
