@@ -112,9 +112,14 @@ UPDATE creature_template SET ScriptName='npc_shahram' WHERE entry=10718;
 /* SPELL */
 UPDATE creature_template SET ScriptName='spell_dummy_npc' WHERE entry IN (
 -- eastern kingdoms
-1200,
 -- kalimdor
 12296,12298);
+
+/* WORLD MAP SCRIPTS */
+DELETE FROM world_template WHERE map IN (0, 1);
+INSERT INTO world_template VALUES
+(0, 'world_map_eastern_kingdoms'),
+(1, 'world_map_kalimdor');
 
 /* */
 /* ZONE */
@@ -234,7 +239,6 @@ UPDATE creature_template SET ScriptName='npc_threshwackonator' WHERE entry=6669;
 UPDATE creature_template SET ScriptName='boss_mr_smite' WHERE entry=646;
 UPDATE instance_template SET ScriptName='instance_deadmines' WHERE map=36;
 UPDATE gameobject_template SET ScriptName='go_defias_cannon' WHERE entry=16398;
-UPDATE gameobject_template SET ScriptName='go_door_lever_dm' WHERE entry=101833;
 
 /* DEADWIND PASS */
 
@@ -447,6 +451,8 @@ UPDATE creature_template SET ScriptName='boss_arugal' WHERE entry=4275;
 /* SILITHUS */
 UPDATE creature_template SET ScriptName='npc_highlord_demitrian' WHERE entry=14347;
 UPDATE creature_template SET ScriptName='npcs_rutgar_and_frankal' WHERE entry IN (15170,15171);
+UPDATE creature_template SET ScriptName='npc_anachronos_the_ancient' WHERE entry=15381;
+UPDATE gameobject_template SET ScriptName='go_crystalline_tear' WHERE entry=180633;
 
 /* SILVERPINE FOREST */
 UPDATE creature_template SET ScriptName='npc_deathstalker_erland' WHERE entry=1978;

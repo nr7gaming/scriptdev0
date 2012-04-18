@@ -1307,10 +1307,6 @@
 						>
 					</File>
 					<File
-						RelativePath="..\scripts\eastern_kingdoms\uldaman\boss_ironaya.cpp"
-						>
-					</File>
-					<File
 						RelativePath="..\scripts\eastern_kingdoms\uldaman\uldaman.cpp"
 						>
 					</File>
@@ -1429,6 +1425,10 @@
 				</File>
 				<File
 					RelativePath="..\scripts\world\spell_scripts.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\scripts\world\world_map_scripts.cpp"
 					>
 				</File>
 			</Filter>

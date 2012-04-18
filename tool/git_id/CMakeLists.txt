@@ -1,5 +1,5 @@
 # Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
-# Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
+# Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,6 +15,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-SET(CMAKE_VERBOSE_MAKEFILE ON)
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8)
+
 ADD_EXECUTABLE (git_id git_id.cpp)

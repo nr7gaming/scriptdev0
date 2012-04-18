@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
+ * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -458,22 +458,22 @@ Player* ScriptedAI::GetPlayerAtMinimumRange(float fMinimumRange)
     return pPlayer;
 }
 
-void ScriptedAI::SetEquipmentSlots(bool bLoadDefault, int32 uiMainHand, int32 uiOffHand, int32 uiRanged)
+void ScriptedAI::SetEquipmentSlots(bool bLoadDefault, int32 iMainHand, int32 iOffHand, int32 iRanged)
 {
     if (bLoadDefault)
     {
-        m_creature->LoadEquipment(m_creature->GetCreatureInfo()->equipmentId,true);
+        m_creature->LoadEquipment(m_creature->GetCreatureInfo()->equipmentId, true);
         return;
     }
 
-    if (uiMainHand >= 0)
-        m_creature->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, uint32(uiMainHand));
+    if (iMainHand >= 0)
+        m_creature->SetVirtualItem(VIRTUAL_ITEM_SLOT_0, iMainHand);
 
-    if (uiOffHand >= 0)
-        m_creature->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 1, uint32(uiOffHand));
+    if (iOffHand >= 0)
+        m_creature->SetVirtualItem(VIRTUAL_ITEM_SLOT_1, iOffHand);
 
-    if (uiRanged >= 0)
-        m_creature->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 2, uint32(uiRanged));
+    if (iRanged >= 0)
+        m_creature->SetVirtualItem(VIRTUAL_ITEM_SLOT_2, iRanged);
 }
 
 void ScriptedAI::SetCombatMovement(bool bCombatMove)

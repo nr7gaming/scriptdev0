@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
+ * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@ extern void AddSC_go_scripts();
 extern void AddSC_guards();
 extern void AddSC_npc_professions();
 extern void AddSC_npcs_special();
+extern void AddSC_spell_scripts();
+extern void AddSC_world_map_scripts();
 
 //eastern kingdoms
 extern void AddSC_blackrock_depths();                       //blackrock_depths
@@ -133,7 +135,6 @@ extern void AddSC_instance_sunken_temple();                 //sunken_temple
 extern void AddSC_sunken_temple();
 extern void AddSC_boss_jammalan();
 extern void AddSC_boss_archaedas();                         //uldaman
-extern void AddSC_boss_ironaya();
 extern void AddSC_uldaman();
 extern void AddSC_instance_uldaman();
 extern void AddSC_boss_arlokk();                            //zulgurub
@@ -251,6 +252,8 @@ void AddScripts()
     AddSC_guards();
     AddSC_npc_professions();
     AddSC_npcs_special();
+    AddSC_spell_scripts();
+    AddSC_world_map_scripts();
 
     //eastern kingdoms
     AddSC_blackrock_depths();                               //blackrock_depths
@@ -353,7 +356,6 @@ void AddScripts()
     AddSC_sunken_temple();
 	AddSC_boss_jammalan();
     AddSC_boss_archaedas();                                 //uldaman
-    AddSC_boss_ironaya();
     AddSC_uldaman();
     AddSC_instance_uldaman();
     AddSC_boss_arlokk();                                    //zulgurub

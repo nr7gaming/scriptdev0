@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
+ * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,20 +24,19 @@ enum
 {
     MAX_ENCOUNTER           = 4,
 
-    TYPE_DEFIAS_ENDDOOR     = 1,
-    TYPE_RHAHKZOR           = 2,
-    TYPE_SNEED              = 3,
-    TYPE_GILNID             = 4,
+    TYPE_RHAHKZOR           = 0,
+    TYPE_SNEED              = 1,
+    TYPE_GILNID             = 2,
+    TYPE_IRON_CLAD_DOOR     = 3,
 
     INST_SAY_ALARM1         = -1036000,
     INST_SAY_ALARM2         = -1036001,
 
     GO_FACTORY_DOOR         = 13965,                        // rhahk'zor
-    GO_FOUNDRY_DOOR         = 16399,                        // gilnid
     GO_MAST_ROOM_DOOR       = 16400,                        // sneed
+    GO_FOUNDRY_DOOR         = 16399,                        // gilnid
     GO_HEAVY_DOOR_1         = 17153,                        // to sneed
     GO_HEAVY_DOOR_2         = 17154,                        // to gilnid
-    GO_DOOR_LEVER           = 101833,
     GO_IRON_CLAD_DOOR       = 16397,
     GO_DEFIAS_CANNON        = 16398,
     GO_SMITE_CHEST          = 144111,                       // use to get correct location of mr.smites equipment changes
@@ -65,13 +64,16 @@ class MANGOS_DLL_DECL instance_deadmines : public ScriptedInstance
         void SetData(uint32 uiType, uint32 uiData);
         uint32 GetData(uint32 uiType);
 
+        const char* Save() { return m_strInstData.c_str(); }
+        void Load(const char* chrIn);
+
         void Update(uint32 uiDiff);
 
     private:
         uint32 m_auiEncounter[MAX_ENCOUNTER];
+        std::string m_strInstData;
 
         uint32 m_uiIronDoorTimer;
-        uint32 m_uiDoorStep;
 };
 
 #endif

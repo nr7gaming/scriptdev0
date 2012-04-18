@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/scriptdev/scriptdevzero>
+ * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,7 +148,7 @@ struct MANGOS_DLL_DECL boss_mr_smiteAI : public ScriptedAI
 
         m_creature->SetStandState(UNIT_STAND_STATE_STAND);
         m_uiPhase = PHASE_EQUIP_END;
-        m_uiEquipTimer = 5000;
+        m_uiEquipTimer = 1000;
 
         Unit* pVictim = m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 0);
 
@@ -157,14 +157,6 @@ struct MANGOS_DLL_DECL boss_mr_smiteAI : public ScriptedAI
             EnterEvadeMode();
             return;
         }
-
-        // Takes longer to run further distance. Not accurate, but will probably be sufficient for most cases
-        if (m_creature->IsWithinDistInMap(pVictim, ATTACK_DISTANCE))
-            m_uiEquipTimer -= 1000;
-        else if (m_creature->IsWithinDistInMap(pVictim, 2*ATTACK_DISTANCE))
-            m_uiEquipTimer -= 2000;
-        else
-            m_uiEquipTimer -= 3000;
     }
 
     void PhaseEquipEnd()
@@ -251,6 +243,7 @@ struct MANGOS_DLL_DECL boss_mr_smiteAI : public ScriptedAI
                         m_uiPhase = PHASE_EQUIP_START;
                         m_uiEquipTimer = 2500;
 
+                        // will clear getVictim (m_attacking)
                         m_creature->AttackStop(true);
                         m_creature->RemoveAurasDueToSpell(SPELL_THRASH);
                     }
@@ -281,21 +274,6 @@ CreatureAI* GetAI_boss_mr_smite(Creature* pCreature)
     return new boss_mr_smiteAI(pCreature);
 }
 
-bool GOUse_go_door_lever_dm(Player* pPlayer, GameObject* pGo)
-{
-    ScriptedInstance* pInstance = (ScriptedInstance*)pGo->GetInstanceData();
-
-    if (!pInstance)
-        return false;
-
-    GameObject* pGoDoor = pInstance->GetSingleGameObjectFromStorage(GO_IRON_CLAD_DOOR);
-
-    if (pGoDoor && pGoDoor->GetGoState() == GO_STATE_READY)
-        return false;
-
-    return true;
-}
-
 bool GOUse_go_defias_cannon(Player* pPlayer, GameObject* pGo)
 {
     ScriptedInstance* pInstance = (ScriptedInstance*)pGo->GetInstanceData();
@@ -303,29 +281,24 @@ bool GOUse_go_defias_cannon(Player* pPlayer, GameObject* pGo)
     if (!pInstance)
         return false;
 
-    if (pInstance->GetData(TYPE_DEFIAS_ENDDOOR) == DONE || pInstance->GetData(TYPE_DEFIAS_ENDDOOR) == IN_PROGRESS)
+    if (pInstance->GetData(TYPE_IRON_CLAD_DOOR) == DONE)
         return false;
 
-    pInstance->SetData(TYPE_DEFIAS_ENDDOOR, IN_PROGRESS);
+    pInstance->SetData(TYPE_IRON_CLAD_DOOR, DONE);
     return false;
 }
 
 void AddSC_deadmines()
 {
-    Script *newscript;
+    Script* pNewScript;
 
-    newscript = new Script;
-    newscript->Name = "boss_mr_smite";
-    newscript->GetAI = &GetAI_boss_mr_smite;
-    newscript->RegisterSelf();
+    pNewScript = new Script;
+    pNewScript->Name = "boss_mr_smite";
+    pNewScript->GetAI = &GetAI_boss_mr_smite;
+    pNewScript->RegisterSelf();
 
-    newscript = new Script;
-    newscript->Name = "go_door_lever_dm";
-    newscript->pGOUse = &GOUse_go_door_lever_dm;
-    newscript->RegisterSelf();
-
-    newscript = new Script;
-    newscript->Name = "go_defias_cannon";
-    newscript->pGOUse = &GOUse_go_defias_cannon;
-    newscript->RegisterSelf();
+    pNewScript = new Script;
+    pNewScript->Name = "go_defias_cannon";
+    pNewScript->pGOUse = &GOUse_go_defias_cannon;
+    pNewScript->RegisterSelf();
 }

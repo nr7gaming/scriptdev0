@@ -337,7 +337,6 @@
     <ClCompile Include="..\scripts\eastern_kingdoms\sunken_temple\sunken_temple.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\sunken_temple\boss_jammalan.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\uldaman\boss_archaedas.cpp" />
-    <ClCompile Include="..\scripts\eastern_kingdoms\uldaman\boss_ironaya.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\uldaman\uldaman.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\uldaman\instance_uldaman.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\zulgurub\boss_arlokk.cpp" />
@@ -428,6 +427,7 @@
     <ClCompile Include="..\scripts\world\npc_professions.cpp" />
     <ClCompile Include="..\scripts\world\npcs_special.cpp" />
     <ClCompile Include="..\scripts\world\spell_scripts.cpp" />
+    <ClCompile Include="..\scripts\world\world_map_scripts.cpp" />
     <ClCompile Include="..\include\precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
