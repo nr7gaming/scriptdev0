@@ -43,6 +43,28 @@ EndScriptData */
 #define    NPC_BLACKHAND_ELITE      10317
 #define    NPC_REND_BLACKHAND       10429
 
+//static Position Spawn = { 201.129f, -420.035f, 110.894f };
+float fX1 = 200.049f;
+float fY1 = -420.301f;
+float fZ1 = 110.894f;
+float fO = 3.070f;
+
+float fX2 = 200.036f;
+float fY2 = -417.669f;
+float fZ2 = 110.894f;
+
+float fX3 = 200.022f;
+float fY3 = 415.051f;
+float fZ3 = 110.890f;
+
+float fX4 = 200.067f;
+float fY4 = -423.786f;
+float fZ4 = 110.891f;
+
+float fX5 = 205.525f;
+float fY5 = -425.451f;
+float fZ5 = 110.913f;
+
 struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 {
     boss_gythAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -112,7 +134,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             m_pInstance->SetData(TYPE_GYTH, FAIL);
     }
 
-    void SummonCreatureWithRandomTarget(uint32 uiCreatureId)
+ /*   void SummonCreatureWithRandomTarget(uint32 uiCreatureId)
     {
         float fX, fY, fZ;
         m_creature->GetRandomPoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), 2*INTERACTION_DISTANCE, fX, fY, fZ);
@@ -120,7 +142,24 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         if (Creature* pSummoned = m_creature->SummonCreature(uiCreatureId, fX, fY, fZ, 0, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 240000))
             if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 pSummoned->AI()->AttackStart(pTarget);
+    } */
+
+    void SummonCreatureWithRandomTarget(Creature* summon)
+    {
+        switch (summon->GetEntry())
+        {
+        case NPC_FIRE_TONGUE:
+        case NPC_CHROMATIC_WHELP:
+        case NPC_CHROMATIC_DRAGON:
+        case NPC_BLACKHAND_ELITE:
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            summon->AI()->AttackStart(pTarget);
+            break;
+        default:
+            break;
+        }
     }
+
 
     void UpdateAI(const uint32 uiDiff)
     {
@@ -157,11 +196,16 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiDragonsTimer < uiDiff)
             {
+                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                /*SummonCreatureWithRandomTarget(NPC_FIRE_TONGUE);
                 SummonCreatureWithRandomTarget(NPC_FIRE_TONGUE);
-                SummonCreatureWithRandomTarget(NPC_FIRE_TONGUE);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
-                SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
+                SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP); */
                 --uiLine1Count;
                 if (m_pInstance)
                     m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
@@ -176,11 +220,16 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiOrcTimer < uiDiff)
             {
-                SummonCreatureWithRandomTarget(NPC_CHROMATIC_DRAGON);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_BLACKHAND_ELITE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+               /* SummonCreatureWithRandomTarget(NPC_CHROMATIC_DRAGON);
                 SummonCreatureWithRandomTarget(NPC_BLACKHAND_ELITE);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
-                SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
+                SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP); */
                 if (m_pInstance)
                     m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
                 --uiLine2Count;
