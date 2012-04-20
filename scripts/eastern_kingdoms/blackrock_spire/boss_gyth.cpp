@@ -152,7 +152,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         case NPC_CHROMATIC_WHELP:
         case NPC_CHROMATIC_DRAGON:
         case NPC_BLACKHAND_ELITE:
-            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 200))
             summon->AI()->AttackStart(pTarget);
             break;
         default:
