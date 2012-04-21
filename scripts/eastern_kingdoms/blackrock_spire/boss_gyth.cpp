@@ -161,25 +161,25 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         //    if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
-            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+      //      summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         case NPC_CHROMATIC_WHELP:
         //    if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
-            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+       //     summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         case NPC_CHROMATIC_DRAGON:
           //  if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
-            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+       //     summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         case NPC_BLACKHAND_ELITE:
           //  if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
-            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+        //    summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         default:
             break;
@@ -222,16 +222,17 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiDragonsTimer < uiDiff)
             {
-                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
                 /*SummonCreatureWithRandomTarget(NPC_FIRE_TONGUE);
                 SummonCreatureWithRandomTarget(NPC_FIRE_TONGUE);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP); */
+             //   m_creature->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
                 --uiLine1Count;
                 if (m_pInstance)
                     m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
@@ -246,11 +247,11 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiOrcTimer < uiDiff)
             {
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_BLACKHAND_ELITE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_BLACKHAND_ELITE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS)->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
                /* SummonCreatureWithRandomTarget(NPC_CHROMATIC_DRAGON);
                 SummonCreatureWithRandomTarget(NPC_BLACKHAND_ELITE);
                 SummonCreatureWithRandomTarget(NPC_CHROMATIC_WHELP);
