@@ -65,6 +65,10 @@ float fX5 = 205.525f;
 float fY5 = -425.451f;
 float fZ5 = 110.913f;
 
+float fX6 = 160.501f;
+float fY6 = -420.693f;
+float fZ6 = 110.472f;
+
 struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 {
     boss_gythAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -157,21 +161,25 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         //    if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
+            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         case NPC_CHROMATIC_WHELP:
         //    if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
+            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         case NPC_CHROMATIC_DRAGON:
           //  if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
+            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         case NPC_BLACKHAND_ELITE:
           //  if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
             summon->AI()->EnterCombat(Target);
+            summon->GetMotionMaster()->MovePoint(0, fX6, fY6, fZ6);
             break;
         default:
             break;
