@@ -156,23 +156,22 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         case NPC_FIRE_TONGUE:
         //    if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
-            summon->AddThreat(Target, 10); 
+            summon->AI()->EnterCombat(Target);
             break;
         case NPC_CHROMATIC_WHELP:
         //    if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
-            summon->AddThreat(Target, 10); 
+            summon->AI()->EnterCombat(Target);
             break;
         case NPC_CHROMATIC_DRAGON:
           //  if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
-            summon->AddThreat(Target, 10); 
+            summon->AI()->EnterCombat(Target);
             break;
         case NPC_BLACKHAND_ELITE:
           //  if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             summon->AI()->AttackStart(Target);
-           // Unit* Target;
-            summon->AddThreat(Target, 10); 
+            summon->AI()->EnterCombat(Target);
             break;
         default:
             break;
