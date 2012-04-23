@@ -463,7 +463,7 @@ bool ProcessEventId_npc_kroshius(uint32 uiEventId, Object* pSource, Object* pTar
     {
         if (pSource->GetTypeId() == TYPEID_PLAYER)
         {
-            if (Creature* pKroshius = GetClosestCreatureWithEntry((Player*)pSource, NPC_KROSHIUS, 20.0f))
+            if (Creature* pKroshius = GetClosestCreatureWithEntry((Player*)pSource, NPC_KROSHIUS, 70.0f))
             {
                 if (npc_kroshiusAI* pKroshiusAI = dynamic_cast<npc_kroshiusAI*>(pKroshius->AI()))
                     pKroshiusAI->DoRevive((Player*)pSource);
