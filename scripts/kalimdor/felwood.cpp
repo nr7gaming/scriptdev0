@@ -383,8 +383,12 @@ struct MANGOS_DLL_DECL npc_kroshiusAI : public ScriptedAI
             return;
 
         m_uiPhase = 1;
-        m_uiPhaseTimer = 2500;
+        m_uiPhaseTimer = 1000;
         m_playerGuid = pSource->GetObjectGuid();
+        m_creature->SetHealthPercent(100);
+        m_creature->setFaction(FACTION_HOSTILE);
+        m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+        m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
 
         // TODO: A visual Flame Circle around the mob still missing
     }
