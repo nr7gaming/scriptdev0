@@ -148,7 +148,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 pSummoned->AI()->AttackStart(pTarget);
     } */
 
-    void SummonCreature(Creature* summon)
+    void JustSummoned(Creature* summon)
     {
         switch (summon->GetEntry())
         {
