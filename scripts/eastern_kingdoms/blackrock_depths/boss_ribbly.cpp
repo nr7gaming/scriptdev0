@@ -17,6 +17,21 @@ enum
     NPC_RIBBLYS_CRONY       = 10043
 };
 
+float fHelperX1   = 880.843f;
+float fHelperY1   = -167.852f;
+float fHelperZ1   = -49.673f;
+float fHelperO1   = 2.652f;
+
+float fHelperX2   = 877.041f;
+float fHelperY2   = -166.488f;
+float fHelperZ2   = -49.674f;
+float fHelperO2   = 5.777f;
+
+float fHelperX3   = 875.614f;
+float fHelperY3   = -168.167f;
+float fHelperZ3   = -49.674f;
+float fHelperO3   = 0.418f;
+
 bool Attack;
 #define GOSSIP_ITEM_RIBBLY "Was willst du von mir?"
 #define GOSSIP_ITEM_RIBBLY_2 "Beleidigen!"
@@ -97,6 +112,13 @@ bool GossipSelect_boss_ribbly(Player* pPlayer, Creature* pCreature, uint32 uiSen
         pCreature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
         pCreature->setFaction(FACTION_ATTACK);
         pCreature->AI()->AttackStart(pPlayer);
+       /* pHelper->setFaction(FACTION_ATTACK);
+        pHelper->AI()->AttackStart(pPlayer); */
+        pCreature->SummonCreature(NPC_RIBBLYS_CRONY, fHelperX1, fHelperY1, fHelperZ1, fHelperO1, TEMPSUMMON_TIMED_DESPAWN, 720*MINUTE*IN_MILLISECONDS);
+        pCreature->SummonCreature(NPC_RIBBLYS_CRONY, fHelperX2, fHelperY2, fHelperZ2, fHelperO2, TEMPSUMMON_TIMED_DESPAWN, 720*MINUTE*IN_MILLISECONDS);
+        pCreature->SummonCreature(NPC_RIBBLYS_CRONY, fHelperX3, fHelperY3, fHelperZ3, fHelperO3, TEMPSUMMON_TIMED_DESPAWN, 720*MINUTE*IN_MILLISECONDS);
+
+         
         Attack = true;
         break;
     }
