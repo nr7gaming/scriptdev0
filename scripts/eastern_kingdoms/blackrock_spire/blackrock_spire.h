@@ -40,6 +40,7 @@ enum
     NPC_GYTH                    = 10339,
     NPC_DRAKKISATH              = 10363,
     NPC_ELITE_GUARD             = 10814,
+    NPC_REND                    = 10429,
 
     // Doors
     GO_EMBERSEER_IN             = 175244,
