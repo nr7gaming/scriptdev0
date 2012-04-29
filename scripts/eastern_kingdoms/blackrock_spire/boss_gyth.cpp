@@ -380,7 +380,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         if (uiVisitorSpawnTimer <= uiDiff)
         {
             VisitorSpawn = true;
-            uiVisitorSpawnTimer = 90*IN_MILLISECONDS;)
+            uiVisitorSpawnTimer = 90*IN_MILLISECONDS;
         } else
         uiVisitorSpawnTimer -= uiDiff;
 
@@ -533,7 +533,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {            
             //Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 50.00f);
             DoScriptText(SAY_REND_END_1, 0, m_creature);
-            Rend->SetDisplayId(MODEL_ID_INVISIBLE);
+           // Rend->SetDisplayId(MODEL_ID_INVISIBLE);
         }
 
 
