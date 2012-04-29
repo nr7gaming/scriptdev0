@@ -330,8 +330,9 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 
         if (Intro1)
         {
-            DoScriptText(SAY_NEFARIAN_INTRO_1, 0,  m_creature);
-            DoScriptText(SAY_TEST, 0, m_creature);
+            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+            DoScriptText(SAY_NEFARIAN_INTRO_1, Nefarius);
+            DoScriptText(SAY_TEST, m_creature);
             Intro1 = false;
             Intro2 = true;
             uiIntroTimer = 10000;
@@ -341,8 +342,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiIntroTimer <= uiDiff)
             {
-               // Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-                DoScriptText(SAY_NEFARIAN_INTRO_2, 0, m_creature);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                DoScriptText(SAY_NEFARIAN_INTRO_2, Nefarius);
                 Intro2 = false;
                 Wave1 = true;
                 uiWaveTimer = 5000;
