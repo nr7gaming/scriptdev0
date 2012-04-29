@@ -63,7 +63,8 @@ enum Yells
     SAY_NEFARIAN_W_7            = -1533206,
     SAY_NEFARIAN_GO_REND_1      = -1533207,
     SAY_REND_END_1              = -1533208,
-    SAY_NEFARIUS_END            = -1533209
+    SAY_NEFARIUS_END            = -1533209,
+    SAY_TEST                    = -1533128
 };
 
 //static Position Spawn = { 201.129f, -420.035f, 110.894f };
@@ -231,20 +232,21 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             DoScriptText(SAY_NEFARIUS_END, 0, Nefarius);
             Nefarius->NearTeleportTo(fNefariusX, fNefariusY, fNefariusZ, fNefariusO, false);
             Nefarius->SetDisplayId(MODEL_ID_INVISIBLE);
-            UnSummon();
+            m_creature->ForcedDespawn();
     }
 
     void JustReachedHome()
     {
         if (m_pInstance)
             m_pInstance->SetData(TYPE_GYTH, FAIL);
+        m_creature->ForcedDespawn();
         UnSummon();
         
     }
 
     void UnSummon()
     {
-        m_creature->ForcedDespawn();
+        m_creature->ForcedDespawn(NPC_VISITOR);
     }
 
  /*   void SummonCreatureWithRandomTarget(uint32 uiCreatureId)
@@ -334,6 +336,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             if (Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f))
             {
                 DoScriptText(SAY_NEFARIAN_INTRO_1, 0,  Nefarius);
+                DoScriptText(SAY_TEST, 0, Nefarius);
             }
             Intro1 = false;
             Intro2 = true;
