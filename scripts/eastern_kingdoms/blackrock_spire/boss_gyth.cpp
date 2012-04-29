@@ -331,8 +331,10 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 
         if (Intro1)
         {
-            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-            DoScriptText(SAY_NEFARIAN_INTRO_1, 0,  Nefarius);
+            if (Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f))
+            {
+                DoScriptText(SAY_NEFARIAN_INTRO_1, 0,  Nefarius);
+            }
             Intro1 = false;
             Intro2 = true;
             uiIntroTimer = 10000;
@@ -390,6 +392,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave1 = false;
                 Wave2 = true;
                 uiWaveTimer = 60000;
+                if (m_pInstance)
+                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
                 uiWaveTimer -= uiDiff;
         }
@@ -407,6 +411,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave2 = false;
                 Wave3 = true;
                 uiWaveTimer = 60000;
+                if (m_pInstance)
+                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
                 uiWaveTimer -= uiDiff;
         }
@@ -425,6 +431,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave3 = false;
                 Wave4 = true;
                 uiWaveTimer = 60000;
+                if (m_pInstance)
+                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
                 uiWaveTimer -= uiDiff;
         }
@@ -443,6 +451,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave4 = false;
                 Wave5 = true;
                 uiWaveTimer = 60000;
+                if (m_pInstance)
+                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
                 uiWaveTimer -= uiDiff;
         }
@@ -460,6 +470,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave5 = false;
                 Wave6 = true;
                 uiWaveTimer = 60000;
+                if (m_pInstance)
+                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
                 uiWaveTimer -= uiDiff;
         }
@@ -478,6 +490,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave6 = false;
                 Wave7 = true;
                 uiWaveTimer = 60000;
+                if (m_pInstance)
+                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
                 uiWaveTimer -= uiDiff;
         }
@@ -497,6 +511,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave7 = false;
                 IntroEnd2 = true;
                 uiWaveTimer = 60000;
+                if (m_pInstance)
+                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
                 uiWaveTimer -= uiDiff;
         }
