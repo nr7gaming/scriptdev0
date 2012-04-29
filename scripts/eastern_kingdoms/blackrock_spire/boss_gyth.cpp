@@ -63,8 +63,7 @@ enum Yells
     SAY_NEFARIAN_W_7            = -1533206,
     SAY_NEFARIAN_GO_REND_1      = -1533207,
     SAY_REND_END_1              = -1533208,
-    SAY_NEFARIUS_END            = -1533209,
-    SAY_TEST                    = -1533128
+    SAY_NEFARIUS_END            = -1533209
 };
 
 //static Position Spawn = { 201.129f, -420.035f, 110.894f };
@@ -229,7 +228,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             m_pInstance->SetData(TYPE_GYTH, DONE);
 			DoCastSpellIfCan(m_creature, SPELL_SUMMONREND);
             Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-            DoScriptText(SAY_NEFARIUS_END, 0, m_creature);
+            DoScriptText(SAY_NEFARIUS_END, Nefarius);
             Nefarius->NearTeleportTo(fNefariusX, fNefariusY, fNefariusZ, fNefariusO, false);
             Nefarius->SetDisplayId(MODEL_ID_INVISIBLE);
     }
@@ -332,7 +331,6 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
             DoScriptText(SAY_NEFARIAN_INTRO_1, Nefarius);
-            DoScriptText(SAY_TEST, m_creature);
             Intro1 = false;
             Intro2 = true;
             uiIntroTimer = 10000;
@@ -427,8 +425,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-              //  Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-                DoScriptText(SAY_NEFARIAN_W_3, 0, m_creature);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                DoScriptText(SAY_NEFARIAN_W_3, Nefarius);
                 m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
                 m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
                 m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
@@ -447,8 +445,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-               // Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-                DoScriptText(SAY_NEFARIAN_W_4, 0, m_creature);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                DoScriptText(SAY_NEFARIAN_W_4, Nefarius);
                 m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
                 m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
                 m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
@@ -506,8 +504,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                //Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-                DoScriptText(SAY_NEFARIAN_W_7, 0, m_creature);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                DoScriptText(SAY_NEFARIAN_W_7, Nefarius);
                 m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
                 m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
                 m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
@@ -524,17 +522,17 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 
         if (IntroEnd2)
         {
-           // Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-            DoScriptText(SAY_NEFARIAN_GO_REND_1, 0, m_creature);
+            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+            DoScriptText(SAY_NEFARIAN_GO_REND_1, Nefarius);
             IntroEnd2 = false;
             IntroEnd3 = true;
         }
 
         if (IntroEnd3)
         {            
-            //Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 50.00f);
-            DoScriptText(SAY_REND_END_1, 0, m_creature);
-           // Rend->SetDisplayId(MODEL_ID_INVISIBLE);
+            Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 50.00f);
+            DoScriptText(SAY_REND_END_1, Rend);
+            Rend->SetDisplayId(MODEL_ID_INVISIBLE);
         }
 
 
