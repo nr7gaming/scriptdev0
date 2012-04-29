@@ -145,6 +145,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
     uint32 uiWaveTimer;
     uint32 uiRendSpawnTimer;
     uint32 uiVisitorSpawnTimer;
+    uint32 uiEndTimer;
 
     bool m_bSummonedRend;
     bool m_bAggro;
@@ -167,6 +168,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 
     bool VisitorSpawn;
 
+    bool RendSpawn;
+
     void Reset()
     {
         uiDragonsTimer = 3000;
@@ -184,6 +187,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         uiWaveTimer = 60000;
         uiRendSpawnTimer = 30000;
         uiVisitorSpawnTimer = 30000;
+        uiEndTimer = 40000;
 
         Intro1 = true;
         Intro2 = false;
@@ -202,6 +206,8 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         IntroEnd3 = false;
 
         VisitorSpawn = true;
+
+        RendSpawn = false;
 
         // how many times should the two lines of summoned creatures be spawned
         // min 2 x 2, max 7 lines of attack in total
@@ -307,11 +313,12 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             m_bRootSelf = true;
         }
 
-        if (!m_bAggro && IntroEnd3 /*uiLine1Count == 0 && uiLine2Count == 0*/)
+        if (!m_bAggro && RendSpawn /*uiLine1Count == 0 && uiLine2Count == 0*/)
         {
             if (uiAggroTimer < uiDiff)
             {
                 m_bAggro = true;
+                RendSpawn = false;
                 // Visible now!
                 // teleport me behind the combat door. so i don't spawn in group.
                 m_creature->NearTeleportTo(fX1, fY1, fZ1, fO, false);
@@ -514,6 +521,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 Wave7 = false;
                 IntroEnd2 = true;
                 uiWaveTimer = 60000;
+                uiEndTimer = 60000;
                 if (m_pInstance)
                     m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
             } else
@@ -522,17 +530,29 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 
         if (IntroEnd2)
         {
-            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
-            DoScriptText(SAY_NEFARIAN_GO_REND_1, Nefarius);
-            IntroEnd2 = false;
-            IntroEnd3 = true;
+            if (uiEndTimer <= uiDiff)
+            {
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                DoScriptText(SAY_NEFARIAN_GO_REND_1, Nefarius);
+                IntroEnd2 = false;
+                IntroEnd3 = true;
+                uiEndTimer = 10000;
+            } else
+                uiEndTimer -= uiDiff;
         }
 
         if (IntroEnd3)
-        {            
-            Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 50.00f);
-            DoScriptText(SAY_REND_END_1, Rend);
-            Rend->SetDisplayId(MODEL_ID_INVISIBLE);
+        {
+            if (uiEndTimer <= uiDiff)
+            {
+                Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 50.00f);
+                DoScriptText(SAY_REND_END_1, Rend);
+                Rend->SetDisplayId(MODEL_ID_INVISIBLE);
+                IntroEnd3 = false;
+                RendSpawn = true;
+                uiEndTimer = 3000;
+            } else
+                uiEndTimer -= uiDiff;
         }
 
 
