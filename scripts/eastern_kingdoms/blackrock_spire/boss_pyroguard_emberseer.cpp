@@ -63,15 +63,14 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
-        //if (m_pInstance)
-          //  m_pInstance->SetData(TYPE_EMBERSEER, IN_PROGRESS); // IN_PROGRESS, set this status when the npc around him attackt, and here? 
+        if (m_pInstance)
+            m_pInstance->SetData(TYPE_EMBERSEER, IN_PROGRESS); 
     }
 
     void JustDied(Unit* pKiller)
     {
         if (m_pInstance)
             m_pInstance->SetData(TYPE_EMBERSEER, DONE);
-		//sLog.outDebug("Instanze: Set Data(Type_embresser, Done");
     }
 
     void JustReachedHome()
@@ -141,11 +140,20 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
     bool AggroFight;
     bool x;
 
+    
+
+
     void Reset()
     {
         uiEncageTimer = 10000;
         uiStrikeTimer = 15000;
         uiFightTimer = 20000;
+
+        if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
+        {
+            DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
+        }
+  
 
         AggroFight = false;
     }
@@ -159,12 +167,13 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
     {
         if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
         {
-            DoCastSpellIfCan(Emberseer,SPELL_EMBERSEER_GROW);
+            DoCastSpellIfCan(Emberseer, SPELL_EMBERSEER_GROW);
         }
     }
 
     void JustReachedHome()
     {
+        Reset();
     }
 
     void UpdateAI(const uint32 diff)
@@ -177,22 +186,19 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
         {
             if (uiFightTimer <= diff)
             {
-                if (pInstance)
-                {
-                    pInstance->SetData(TYPE_EMBERSEER, IN_PROGRESS);
+                //SetData(TYPE_EMBERSEER, IN_PROGRESS);
                     AggroFight = false;
-                }
             } else
                 uiFightTimer -= diff;
         }
 
-        if (uiEncageTimer <= diff)
+     /*   if (uiEncageTimer <= diff)
         {
             Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f);
             DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
             uiEncageTimer = 10000;
         } else
-            uiEncageTimer -= diff;
+            uiEncageTimer -= diff; */
 
         if (uiStrikeTimer <= diff)
         {
