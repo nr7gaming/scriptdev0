@@ -56,7 +56,7 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
     void Aggro(Unit* pWho)
     {
         if (m_pInstance)
-            m_pInstance->SetData(TYPE_EMBERSEER, IN_PROGRESS);
+          //  m_pInstance->SetData(TYPE_EMBERSEER, IN_PROGRESS); // IN_PROGRESS, set this status when the npc around him attackt, and here? 
     }
 
     void JustDied(Unit* pKiller)

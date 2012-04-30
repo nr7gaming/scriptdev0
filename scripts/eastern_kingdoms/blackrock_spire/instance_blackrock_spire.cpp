@@ -153,7 +153,10 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
         case TYPE_EMBERSEER:
             DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
             if (uiData == DONE)
+            {
                 DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
+                DoUseEmberseerRunes();
+            }
             else if (uiData == FAIL)
             {
                 // reset runes
@@ -168,6 +171,11 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
                             pCreature->Respawn();
                     }
                 }
+            }
+            else if (uiData == NOT_STARTED)
+            {
+                DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
+                DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
             }
             m_auiEncounter[1] = uiData;
             break;
