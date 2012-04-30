@@ -18,8 +18,7 @@
 /* ScriptData
 SDName: Boss_Gyth
 * ToDO:
-* 29.04.12
-* Over the arena, on the balkon, spawn some mobs when start the fight in the arena. 
+* 
 
 */
 
@@ -37,6 +36,7 @@ SDName: Boss_Gyth
 #define    MODEL_ID_INVISIBLE		11686
 #define    MODEL_ID_GYTH_MOUNTED	9723
 #define    MODEL_ID_GYTH			9806
+#define    MODEL_ID_REND            9778
 
 #define    NPC_FIRE_TONGUE          10372
 #define    NPC_CHROMATIC_WHELP      10442
@@ -233,7 +233,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         if (m_pInstance)
             m_pInstance->SetData(TYPE_GYTH, DONE);
 			DoCastSpellIfCan(m_creature, SPELL_SUMMONREND);
-            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 150.00f);
             DoScriptText(SAY_NEFARIUS_END, Nefarius);
             Nefarius->NearTeleportTo(fNefariusX, fNefariusY, fNefariusZ, fNefariusO, false);
             Nefarius->SetDisplayId(MODEL_ID_INVISIBLE);
@@ -243,33 +243,16 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
     {
         if (m_pInstance)
             m_pInstance->SetData(TYPE_GYTH, FAIL);
+
+        Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 150.00f);
+        Rend->SetDisplayId(MODEL_ID_REND);
         
     }
-
-    void UnSummon()
-    {
-        //m_creature->ForcedDespawn(NPC_VISITOR);
-    }
-
- /*   void SummonCreatureWithRandomTarget(uint32 uiCreatureId)
-    {
-        float fX, fY, fZ;
-        m_creature->GetRandomPoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), 2*INTERACTION_DISTANCE, fX, fY, fZ);
-        fX = std::min(m_creature->GetPositionX(), fX);      // Halfcircle - suits better the rectangular form
-        if (Creature* pSummoned = m_creature->SummonCreature(uiCreatureId, fX, fY, fZ, 0, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 240000))
-            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-                pSummoned->AI()->AttackStart(pTarget);
-    } */
 
     void JustSummoned(Creature* summon)
     {
         switch (summon->GetEntry())
         {
-           /* Unit* Target;
-            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
-            {
-                pTarget = Target;
-            } */
         case NPC_FIRE_TONGUE:
             summon->SetInCombatWithZone();
             if (Unit* Target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
@@ -313,7 +296,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             m_bRootSelf = true;
         }
 
-        if (!m_bAggro && RendSpawn /*uiLine1Count == 0 && uiLine2Count == 0*/)
+        if (!m_bAggro && RendSpawn)
         {
             if (uiAggroTimer < uiDiff)
             {
@@ -336,7 +319,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
 
         if (Intro1)
         {
-            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+            Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 150.00f);
             DoScriptText(SAY_NEFARIAN_INTRO_1, Nefarius);
             Intro1 = false;
             Intro2 = true;
@@ -347,7 +330,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiIntroTimer <= uiDiff)
             {
-                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 150.00f);
                 DoScriptText(SAY_NEFARIAN_INTRO_2, Nefarius);
                 Intro2 = false;
                 Wave1 = true;
@@ -359,24 +342,24 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiVisitorSpawnTimer <= uiDiff)
             {
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX1, fZuschauerY1, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX2, fZuschauerY2, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX3, fZuschauerY3, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX4, fZuschauerY4, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX5, fZuschauerY5, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX6, fZuschauerY6, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX7, fZuschauerY7, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX8, fZuschauerY8, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX9, fZuschauerY9, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX10, fZuschauerY10, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX11, fZuschauerY11, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX12, fZuschauerY12, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX13, fZuschauerY13, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX14, fZuschauerY14, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX15, fZuschauerY15, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX16, fZuschauerY16, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX17, fZuschauerY17, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX18, fZuschauerY18, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX1, fZuschauerY1, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX2, fZuschauerY2, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX3, fZuschauerY3, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX4, fZuschauerY4, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX5, fZuschauerY5, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX6, fZuschauerY6, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX7, fZuschauerY7, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX8, fZuschauerY8, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX9, fZuschauerY9, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX10, fZuschauerY10, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX11, fZuschauerY11, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX12, fZuschauerY12, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX13, fZuschauerY13, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX14, fZuschauerY14, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX15, fZuschauerY15, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX16, fZuschauerY16, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX17, fZuschauerY17, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_VISITOR, fZuschauerX18, fZuschauerY18, fZuschZ, fOr, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 120000);
                 uiVisitorSpawnTimer = 30000;
                 VisitorSpawn = false;
             } else
@@ -395,10 +378,10 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 Wave1 = false;
                 Wave2 = true;
                 uiWaveTimer = 60000;
@@ -413,11 +396,11 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 50.00f);
+                Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 150.00f);
                 DoScriptText(SAY_REND_W_2, 0, Rend);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 Wave2 = false;
                 Wave3 = true;
                 uiWaveTimer = 60000;
@@ -432,12 +415,12 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 150.00f);
                 DoScriptText(SAY_NEFARIAN_W_3, Nefarius);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 Wave3 = false;
                 Wave4 = true;
                 uiWaveTimer = 60000;
@@ -452,12 +435,12 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 150.00f);
                 DoScriptText(SAY_NEFARIAN_W_4, Nefarius);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 Wave4 = false;
                 Wave5 = true;
                 uiWaveTimer = 60000;
@@ -472,11 +455,11 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 Wave5 = false;
                 Wave6 = true;
                 uiWaveTimer = 60000;
@@ -491,12 +474,12 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 Wave6 = false;
                 Wave7 = true;
                 uiWaveTimer = 60000;
@@ -511,13 +494,13 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiWaveTimer <= uiDiff)
             {
-                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 150.00f);
                 DoScriptText(SAY_NEFARIAN_W_7, Nefarius);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
+                m_creature->SummonCreature(NPC_BLACKHAND_HANDLER, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120000);
                 Wave7 = false;
                 IntroEnd2 = true;
                 uiWaveTimer = 60000;
@@ -532,7 +515,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiEndTimer <= uiDiff)
             {
-                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 50.00f);
+                Creature* Nefarius = GetClosestCreatureWithEntry(m_creature, NPC_NEFARIUS_EVENT, 150.00f);
                 DoScriptText(SAY_NEFARIAN_GO_REND_1, Nefarius);
                 IntroEnd2 = false;
                 IntroEnd3 = true;
@@ -545,7 +528,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
         {
             if (uiEndTimer <= uiDiff)
             {
-                Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 50.00f);
+                Creature* Rend = GetClosestCreatureWithEntry(m_creature, NPC_REND_EVENT, 150.00f);
                 DoScriptText(SAY_REND_END_1, Rend);
                 Rend->SetDisplayId(MODEL_ID_INVISIBLE);
                 IntroEnd3 = false;
@@ -554,50 +537,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
             } else
                 uiEndTimer -= uiDiff;
         }
-
-
-
-        // Summon Wave3, 2 whelps, 1 dragon, 1 dr
-
-
-        // Summon Dragon pack. 2 Dragons and 3 Whelps
-/*        if (!m_bAggro && !m_bSummonedRend && uiLine1Count > 0)
-        {
-            if (uiDragonsTimer < uiDiff)
-            {
-                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_FIRE_TONGUE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                --uiLine1Count;
-                if (m_pInstance)
-                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
-                uiDragonsTimer = 60000;
-            }
-            else
-                uiDragonsTimer -= uiDiff;
-        }
-
-        //Summon Orc pack. 1 Orc Handler 1 Elite Dragonkin and 3 Whelps
-        if (!m_bAggro && !m_bSummonedRend && uiLine1Count == 0 && uiLine2Count > 0)
-        {
-            if (uiOrcTimer < uiDiff)
-            {
-                m_creature->SummonCreature(NPC_CHROMATIC_DRAGON, fX1, fY1, fZ1, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_BLACKHAND_ELITE, fX2, fY2, fZ2, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX3, fY3, fZ3, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX4, fY4, fZ4, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                m_creature->SummonCreature(NPC_CHROMATIC_WHELP, fX5, fY5, fZ5, fO, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 120*IN_MILLISECONDS);
-                if (m_pInstance)
-                    m_pInstance->DoUseDoorOrButton(m_uiCombatDoorGUID);
-                --uiLine2Count;
-                uiOrcTimer = 60000;
-            }
-            else
-                uiOrcTimer -= uiDiff;
-        } */
-
+        
         // we take part in the fight
         if (m_bAggro)
         {
