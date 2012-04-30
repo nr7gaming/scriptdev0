@@ -30,6 +30,14 @@ EndScriptData */
 #define   SPELL_FLAMEBUFFET		  16536						  //23341
 #define   SPELL_PYROBLAST         20228                         // guesswork, but best fitting in spells-area, was 17274 (has mana cost)
 
+// BLACKHAND_INCANCERATOR spells
+#define   SPELL_ENCAGE            16045
+#define   SPELL_STRIKE            15580
+
+#define   NPC_EMBERSEER           9816
+
+#define   SPELL_EMBERSEER_GROW    16048,
+
 
 
 
@@ -116,6 +124,93 @@ CreatureAI* GetAI_boss_pyroguard_emberseer(Creature* pCreature)
     return new boss_pyroguard_emberseerAI(pCreature);
 }
 
+struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
+{
+    npc_blackhandAI(Creature* pCreature) : ScriptedAI(pCreature)
+    {
+        pInstance = (instance_blackrock_spire*) pCreature->GetInstanceData();
+        Reset();
+    }
+
+    instance_blackrock_spire* pInstance;
+
+    uint32 uiStrikeTimer;
+    uint32 uiEncageTimer;
+    uint32 uiFightTimer;
+
+    bool AggroFight;
+    bool x;
+
+    void Reset()
+    {
+        uiEncageTimer = 10000;
+        uiStrikeTimer = 15000;
+        uiFightTimer = 20000;
+
+        AggroFight = false;
+    }
+
+    void Aggro(Unit* pWho, Creature* pCreature)
+    {
+        AggroFight = true;
+    }
+
+    void JustDied(Unit* pKiller)
+    {
+        Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f);
+        DoCastSpellIfCan(Emberseer, SPELL_EMBERSEER_GROW);
+        //
+    }
+
+    void JustReachedHome()
+    {
+    }
+
+    void UpdateAI(const uint32 diff)
+    {
+        //Return since we have no target
+        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            return;
+
+        if (AggroFight)
+        {
+            if (uiFightTimer <= diff)
+            {
+                if (pInstance)
+                {
+                    pInstance->SetData(TYPE_EMBERSEER, IN_PROGRESS);
+                    AggroFight = false;
+                }
+            } else
+                uiFightTimer -= diff;
+        }
+
+        if (uiEncageTimer <= diff)
+        {
+            Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f);
+            DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
+            uiEncageTimer = 10000;
+        } else
+            uiEncageTimer <= diff;
+
+        if (uiStrikeTimer <= diff)
+        {
+            DoCastSpellIfCan(m_creature->getVictim(), SPELL_STRIKE);
+            uiStrikeTimer = 20000;
+        } else
+            uiStrikeTimer -= diff;
+    }
+
+
+};
+
+CreatureAI* GetAI_npc_blackhand(Creature* pCreature)
+{
+    return new npc_blackhandAI(pCreature);
+}
+
+
+
 void AddSC_boss_pyroguard_emberseer()
 {
     Script* pNewScript;
@@ -123,4 +218,11 @@ void AddSC_boss_pyroguard_emberseer()
     pNewScript->Name = "boss_pyroguard_emberseer";
     pNewScript->GetAI = &GetAI_boss_pyroguard_emberseer;
     pNewScript->RegisterSelf();
+
+    Script* pNewScript;
+    pNewScript = new Script;
+    pNewScript->Name = "npc_blackhand";
+    pNewScript->GetAI = &GetAI_npc_blackhand;
+    pNewScript->RegisterSelf();
 }
+

@@ -156,7 +156,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
             {
                 DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
                 DoUseEmberseerRunes();
-            }
+                }
             else if (uiData == FAIL)
             {
                 // reset runes
@@ -292,7 +292,7 @@ void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
             // also need to set all the incarcerators in combat, when one of them gets aggro
             if (GetData(TYPE_EMBERSEER) != IN_PROGRESS)
             {
-                SetData(TYPE_EMBERSEER, IN_PROGRESS);
+                //SetData(TYPE_EMBERSEER, IN_PROGRESS);
                 // set the mates in combat too
                 for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
                 {
@@ -303,7 +303,7 @@ void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
                     }
                 }
             }
-            break;
+            break; 
         case NPC_DRAKKISATH:
         case NPC_ELITE_GUARD:
             for (GUIDList::const_iterator itr = m_lDrakkisathNpcGUIDList.begin(); itr != m_lDrakkisathNpcGUIDList.end(); itr++)
