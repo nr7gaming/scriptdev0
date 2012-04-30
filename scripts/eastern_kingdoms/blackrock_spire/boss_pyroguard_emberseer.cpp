@@ -36,7 +36,7 @@ EndScriptData */
 
 #define   NPC_EMBERSEER           9816
 
-#define   SPELL_EMBERSEER_GROW    16048,
+#define   SPELL_EMBERSEER_GROW    16048
 
 
 
@@ -157,9 +157,10 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
 
     void JustDied(Unit* pKiller)
     {
-        Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f);
-        DoCastSpellIfCan(Emberseer, SPELL_EMBERSEER_GROW);
-        //
+        if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
+        {
+            DoCastSpellIfCan(Emberseer,SPELL_EMBERSEER_GROW);
+        }
     }
 
     void JustReachedHome()
@@ -191,7 +192,7 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
             DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
             uiEncageTimer = 10000;
         } else
-            uiEncageTimer <= diff;
+            uiEncageTimer -= diff;
 
         if (uiStrikeTimer <= diff)
         {
@@ -219,10 +220,10 @@ void AddSC_boss_pyroguard_emberseer()
     pNewScript->GetAI = &GetAI_boss_pyroguard_emberseer;
     pNewScript->RegisterSelf();
 
-    Script* pNewScript;
-    pNewScript = new Script;
-    pNewScript->Name = "npc_blackhand";
-    pNewScript->GetAI = &GetAI_npc_blackhand;
-    pNewScript->RegisterSelf();
+    Script* pNewScript2;
+    pNewScript2 = new Script;
+    pNewScript2->Name = "npc_blackhand";
+    pNewScript2->GetAI = &GetAI_npc_blackhand;
+    pNewScript2->RegisterSelf();
 }
 
