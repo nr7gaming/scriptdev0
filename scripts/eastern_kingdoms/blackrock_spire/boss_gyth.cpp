@@ -536,7 +536,7 @@ struct MANGOS_DLL_DECL boss_gythAI : public ScriptedAI
                 DoScriptText(SAY_NEFARIAN_GO_REND_1, Nefarius);
                 IntroEnd2 = false;
                 IntroEnd3 = true;
-                uiEndTimer = 10000;
+                uiEndTimer = 1500;
             } else
                 uiEndTimer -= uiDiff;
         }
