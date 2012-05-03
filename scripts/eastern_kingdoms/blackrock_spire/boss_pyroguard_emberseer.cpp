@@ -146,12 +146,6 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
         uiEncageTimer = 10000;
         uiStrikeTimer = 15000;
         uiFightTimer = 20000;
-        
-
-      /*  if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
-        {
-            DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
-        } */
   
 
         AggroFight = false;
@@ -179,7 +173,15 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
     {
         //Return since we have no target
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        {
+            if (uiEncageTimer <= diff)
+            {
+                Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f);
+                DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
+                uiEncageTimer = 10000;
+            } else
+                uiEncageTimer -= diff;
+        }
 
         if (AggroFight)
         {
@@ -190,14 +192,6 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
             } else
                 uiFightTimer -= diff;
         }
-
-     /*   if (uiEncageTimer <= diff)
-        {
-            Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f);
-            DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
-            uiEncageTimer = 10000;
-        } else
-            uiEncageTimer -= diff; */
 
         if (uiStrikeTimer <= diff)
         {
