@@ -283,6 +283,23 @@ uint64 instance_blackrock_spire::GetData64(uint32 uiType)
     return 0;
 }
 
+void instance_blackrock_spire::OnCreatureOutOfCombat(Creature* pCreature)
+{
+    switch(pCreature->GetEntry())
+    {
+        case NPC_BLACKHAND_INCANCERATOR:
+            if (GetData(TYPE_EMBERSEER) != IN_PROGRESS)
+            {
+                if (Creature* Emberseer = GetClosestCreatureWithEntry(0, NPC_EMBERSEER , 150.00f))
+                {
+                    //DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
+                    pCreature->CastCustomSpell(Emberseer, SPELL_ENCAGE,0, 0, 0, false);
+                }
+            }
+            break;
+    }
+}
+
 void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
 {
     switch(pCreature->GetEntry())
