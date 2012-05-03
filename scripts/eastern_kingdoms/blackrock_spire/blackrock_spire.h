@@ -41,6 +41,7 @@ enum
     NPC_DRAKKISATH              = 10363,
     NPC_ELITE_GUARD             = 10814,
     NPC_REND                    = 10429,
+    NPC_EMBERSEER               = 9816,
 
     // Doors
     GO_EMBERSEER_IN             = 175244,
@@ -70,7 +71,10 @@ enum
 
 
     SPELL_EMBERSEER_GROW        = 16048,
+    SPELL_ENCAGE                = 16045
 };
+
+
 
 class MANGOS_DLL_DECL instance_blackrock_spire : public ScriptedInstance
 {
@@ -83,6 +87,7 @@ class MANGOS_DLL_DECL instance_blackrock_spire : public ScriptedInstance
         void OnObjectCreate(GameObject* pGo);
         void OnCreatureCreate(Creature* pCreature);
         void OnCreatureEnterCombat(Creature* pCreature);
+        void OnCreatureOutOfCombat(Creature* pCreature);
 
         void SetData(uint32 uiType, uint32 uiData);
         void SetData64(uint32 uiType, uint64 uiData);

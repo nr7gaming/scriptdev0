@@ -31,12 +31,12 @@ EndScriptData */
 #define   SPELL_PYROBLAST         20228                         // guesswork, but best fitting in spells-area, was 17274 (has mana cost)
 
 // BLACKHAND_INCANCERATOR spells
-#define   SPELL_ENCAGE            16045
+//#define   SPELL_ENCAGE            16045
 #define   SPELL_STRIKE            15580
 
-#define   NPC_EMBERSEER           9816
-
-#define   SPELL_EMBERSEER_GROW    16048
+//#define   NPC_EMBERSEER           9816
+/*
+#define   SPELL_EMBERSEER_GROW    16048 */
 
 
 
@@ -140,19 +140,18 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
     bool AggroFight;
     bool x;
 
-    
-
 
     void Reset()
     {
         uiEncageTimer = 10000;
         uiStrikeTimer = 15000;
         uiFightTimer = 20000;
+        
 
-        if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
+      /*  if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
         {
             DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
-        }
+        } */
   
 
         AggroFight = false;
@@ -206,6 +205,8 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
             uiStrikeTimer = 20000;
         } else
             uiStrikeTimer -= diff;
+
+        DoMeleeAttackIfReady();
     }
 
 
