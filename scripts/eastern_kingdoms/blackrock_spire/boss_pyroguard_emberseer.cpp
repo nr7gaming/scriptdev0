@@ -67,7 +67,7 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
         m_uiFireNovaTimer = 6000;
         m_uiFlameBuffetTimer = 3000;
         m_uiPyroBlastTimer = 14000;
-        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+       // m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
 
         uiSay1Timer = 10000;
