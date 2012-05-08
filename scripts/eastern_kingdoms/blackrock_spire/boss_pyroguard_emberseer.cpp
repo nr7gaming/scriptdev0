@@ -38,6 +38,10 @@ EndScriptData */
 /*
 #define   SPELL_EMBERSEER_GROW    16048 */
 
+#define EMOTE_1 "Ich werde Staerker 1"
+#define EMOTE_2 "Ich werde Staerker 2"
+#define EMOTE_3 "Ich werde Staerker 3"
+
 
 
 
@@ -97,18 +101,21 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
             {
                 if (uiSay1Timer <= diff)
                 {
+                    m_creature->MonsterTextEmote(EMOTE_1, m_creature, true);
                     uiSay2Timer = 10000;
                 } else
                     uiSay1Timer -= diff;
 
                 if (uiSay2Timer <= diff)
                 {
+                    m_creature->MonsterTextEmote(EMOTE_2, m_creature, true);
                     uiSay3Timer = 10000;
                 } else
                     uiSay2Timer -= diff;
 
                 if (uiSay3Timer <= diff)
                 {
+                    m_creature->MonsterTextEmote(EMOTE_3, m_creature, true);
                     m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
                     m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
                 }
@@ -242,8 +249,11 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
 
         if (uiStrikeTimer <= diff)
         {
-            DoCastSpellIfCan(m_creature->getVictim(), SPELL_STRIKE);
-            uiStrikeTimer = 20000;
+            if (m_creature->isInCombat())
+            {
+                DoCastSpellIfCan(m_creature->getVictim(), SPELL_STRIKE);
+                uiStrikeTimer = 20000;
+            }
         } else
             uiStrikeTimer -= diff;
 

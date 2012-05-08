@@ -217,11 +217,11 @@ void instance_stratholme::SetData(uint32 uiType, uint32 uiData)
                 }
 
                 uint32 uiCount = m_sAbomnationGUID.size();
-                for(GUIDSet::iterator itr = m_sAbomnationGUID.begin(); itr != m_sAbomnationGUID.end();)
+                for(GUIDSet::iterator itr = m_sAbomnationGUID.begin(); itr != m_sAbomnationGUID.end(); ++itr)
                 {
                     if (Creature* pAbom = instance->GetCreature(*itr))
                     {
-                            ++itr;
+                           // ++itr;
                         if (!pAbom->isAlive())
                             --uiCount;
                     }
