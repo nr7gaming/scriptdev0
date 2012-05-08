@@ -97,7 +97,7 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
     {
         if (target && m_creature->GetDistance2d(target) <= 30)
         {
-            if (!m_creature->HasAura(SPELL_ENCAGE))
+            if (m_creature->HasAura(SPELL_EMBERSEER_GROW))
             {
                 if (uiSay1Timer <= diff)
                 {
@@ -122,6 +122,7 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
             }
         }
     }
+
 
     void UpdateAI(const uint32 uiDiff)
     {
@@ -194,6 +195,7 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
 
         AggroFight = false;
         IsInCombat = false;
+        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
     }
 
     void Aggro(Unit* pWho, Creature* pCreature)

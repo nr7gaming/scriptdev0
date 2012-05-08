@@ -176,6 +176,27 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
             {
                 DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
                 DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
+                DoUseEmberseerRunes();
+
+                uint32 Count = m_lIncanceratorGUIDList.size();
+                for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
+                {
+                    if (Creature* pCreature = instance->GetCreature(*itr))
+                    {
+                        if (!pCreature->isAlive())
+                        {
+                            --Count;
+                        }
+                    }
+                }
+
+                if (!Count)
+                {
+                    if (Creature* pPyroguard = GetSingleCreatureFromStorage(NPC_EMBERSEER))
+                    {
+                        pPyroguard->CastSpell(pPyroguard->GetPositionX(), pPyroguard->GetPositionY(), pPyroguard->GetPositionZ(), SPELL_EMBERSEER_GROW, false);
+                    }
+                }
             }
             m_auiEncounter[1] = uiData;
             break;
