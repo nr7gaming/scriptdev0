@@ -317,6 +317,7 @@ void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
                     {
                         if (pCreature->getVictim())
                             pTemp->AI()->AttackStart(pCreature->getVictim());
+
                     }
                 }
             }

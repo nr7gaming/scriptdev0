@@ -54,11 +54,21 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
     uint32 m_uiFlameBuffetTimer;
     uint32 m_uiPyroBlastTimer;
 
+    uint32 uiSay1Timer;
+    uint32 uiSay2Timer;
+    uint32 uiSay3Timer;
+
     void Reset()
     {
         m_uiFireNovaTimer = 6000;
         m_uiFlameBuffetTimer = 3000;
         m_uiPyroBlastTimer = 14000;
+        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
+
+        uiSay1Timer = 10000;
+        uiSay2Timer = 20000;
+        uiSay3Timer = 30000;
     }
 
     void Aggro(Unit* pWho)
@@ -77,6 +87,33 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
     {
         if (m_pInstance)
             m_pInstance->SetData(TYPE_EMBERSEER, FAIL);
+    }
+
+    void MoveInLineOfSight(Unit* target, const uint32 diff)
+    {
+        if (target && m_creature->GetDistance2d(target) <= 30)
+        {
+            if (!m_creature->HasAura(SPELL_ENCAGE))
+            {
+                if (uiSay1Timer <= diff)
+                {
+                    uiSay2Timer = 10000;
+                } else
+                    uiSay1Timer -= diff;
+
+                if (uiSay2Timer <= diff)
+                {
+                    uiSay3Timer = 10000;
+                } else
+                    uiSay2Timer -= diff;
+
+                if (uiSay3Timer <= diff)
+                {
+                    m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                    m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
+                }
+            }
+        }
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -139,16 +176,17 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
 
     bool AggroFight;
     bool x;
+    bool IsInCombat;
 
 
     void Reset()
     {
         uiEncageTimer = 10000;
         uiStrikeTimer = 15000;
-        uiFightTimer = 20000;
-  
+        uiFightTimer = 20000;  
 
         AggroFight = false;
+        IsInCombat = false;
     }
 
     void Aggro(Unit* pWho, Creature* pCreature)
@@ -171,16 +209,25 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
+        if (m_creature->isInCombat())
+        {
+            IsInCombat = true;
+        }
         //Return since we have no target
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
         {
-            if (uiEncageTimer <= diff)
+            if (!IsInCombat)
             {
-                Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f);
-                DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
-                uiEncageTimer = 10000;
-            } else
-                uiEncageTimer -= diff;
+                if (uiEncageTimer <= diff)
+                {
+                    if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
+                    {
+                        DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
+                        uiEncageTimer = 10000;
+                    }
+                } else
+                    uiEncageTimer -= diff;
+            } 
         }
 
         if (AggroFight)
