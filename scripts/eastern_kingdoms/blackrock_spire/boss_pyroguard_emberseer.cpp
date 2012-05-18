@@ -193,7 +193,7 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
         {
             if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
             {
-                Emberseer->SetInCombatWithZone();
+              //  Emberseer->SetInCombatWithZone();
             }
         }
 

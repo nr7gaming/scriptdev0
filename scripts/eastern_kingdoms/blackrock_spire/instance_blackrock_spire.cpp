@@ -177,8 +177,8 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
             }
             else if (uiData == IN_PROGRESS)
             {
-                DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
-                DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
+              //  DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
+              //  DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
                 DoUseEmberseerRunes();
 
                 uint32 Count = m_lIncanceratorGUIDList.size();
@@ -197,7 +197,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
                 {
                     if (Creature* pPyroguard = GetSingleCreatureFromStorage(NPC_EMBERSEER))
                     {
-                        pPyroguard->CastSpell(pPyroguard->GetPositionX(), pPyroguard->GetPositionY(), pPyroguard->GetPositionZ(), SPELL_EMBERSEER_GROW, false);
+                        pPyroguard->SetInCombatWithZone();
                     }
                 }
             }
