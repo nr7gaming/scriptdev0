@@ -175,6 +175,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
                             pCreature->Respawn();
                     }
                 }
+
             }
             else if (uiData == IN_PROGRESS)
             {
@@ -196,11 +197,13 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
 
                 if (!Count)
                 {
-                    if (Creature* pPyroguard = GetSingleCreatureFromStorage(NPC_EMBERSEER))
+                    if (Creature* Emberseer = GetSingleCreatureFromStorage(NPC_EMBERSEER))
                     {
-                        pPyroguard->SetInCombatWithZone();
+                        Emberseer->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
+                        Emberseer->RemoveFlag(UNIT_FIELD_FLAGS ,UNIT_FLAG_PACIFIED);
                     }
                 }
+
             }
             m_auiEncounter[1] = uiData;
             break;
@@ -328,12 +331,6 @@ void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
                         {
                             pTemp->AI()->AttackStart(pCreature->getVictim());
                         }
-
-                        if (GetData(TYPE_EMBERSEER) == FAIL)
-                        {
-                            itr = m_lIncanceratorGUIDList.begin();
-                        }
-
                     }
                 }
             }
@@ -458,25 +455,20 @@ bool ProcessEventId_event_spell_altar_emberseer(uint32 uiEventId, Object* pSourc
 
 uint8 ActivatedRunes = 0;
 
-//bool GOUse_go_dragonspire_hall_rune(Player* pPlayer, GameObject* pGo)
-//class go_dragonspire_hall_rune(GameObject* pGo)
-//{
-	//go_dragonspire_hall_rune() : GameObjectScript("go_dragonspire_hall_rune") { }
-	
-	void OnGameObjectStateChanged(GameObject* go, uint32 state)
+void OnGameObjectStateChanged(GameObject* go, uint32 state)
+{
+    if (state == GO_STATE_READY)
 	{
-		if (state == GO_STATE_READY)
+        if (++ActivatedRunes == MAX_DRAGONSPIRE_HALL_RUNES)
 		{
-			if (++ActivatedRunes == MAX_DRAGONSPIRE_HALL_RUNES)
-			{
-				if (GameObject* door1 = GetClosestGameObjectWithEntry(go, GO_EMBERSEER_IN, 150.0f))
-					door1->SetGoState(GO_STATE_ACTIVE);
-				if (GameObject* door2 = GetClosestGameObjectWithEntry(go, GO_DOORS, 150.0f))
-					door2->SetGoState(GO_STATE_ACTIVE);
-			}
-		}
-	}
-//};
+            if (GameObject* door1 = GetClosestGameObjectWithEntry(go, GO_EMBERSEER_IN, 150.0f))
+                door1->SetGoState(GO_STATE_ACTIVE);
+			if (GameObject* door2 = GetClosestGameObjectWithEntry(go, GO_DOORS, 150.0f))
+				door2->SetGoState(GO_STATE_ACTIVE);
+        }
+    }
+}
+
 
 void AddSC_instance_blackrock_spire()
 {
@@ -496,8 +488,4 @@ void AddSC_instance_blackrock_spire()
     pNewScript->pProcessEventId = &ProcessEventId_event_spell_altar_emberseer;
     pNewScript->RegisterSelf();
 
- /*   pNewScript = new Script;
-    pNewScript->Name = "go_dragonspire_hall_rune";
-    pNewScript->pGOUse = &GOUse_go_dragonspire_hall_rune;
-    pNewScript->RegisterSelf(); */
 }

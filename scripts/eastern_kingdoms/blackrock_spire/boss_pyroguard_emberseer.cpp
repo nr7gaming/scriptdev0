@@ -170,8 +170,8 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
     void JustReachedHome()
     {
         Reset();
-        if (pInstance)
-            pInstance->SetData(TYPE_EMBERSEER, FAIL); 
+      //  if (pInstance)
+           // pInstance->SetData(TYPE_EMBERSEER, FAIL); 
 
     }
 
@@ -197,6 +197,8 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
             if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
             {
                 Emberseer->SetInCombatWithZone();
+                Emberseer->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
+                Emberseer->SetFlag(UNIT_FIELD_FLAGS ,UNIT_FLAG_PACIFIED);
             }
         }
 
