@@ -68,6 +68,7 @@ enum
     GO_EMBERSEER_RUNE_5         = 175268,
     GO_EMBERSEER_RUNE_6         = 175267,
     GO_EMBERSEER_RUNE_7         = 175266,
+    MAX_DRAGONSPIRE_HALL_RUNES      = 7,
 
 
     SPELL_EMBERSEER_GROW        = 16048,
