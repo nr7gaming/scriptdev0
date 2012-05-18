@@ -155,6 +155,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
             break;
         case TYPE_EMBERSEER:
             DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
+            DoUseEmberseerRunes();
             if (uiData == DONE)
             {
                 DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
@@ -179,7 +180,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
             {
               //  DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
               //  DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
-                DoUseEmberseerRunes();
+               // DoUseEmberseerRunes();
 
                 uint32 Count = m_lIncanceratorGUIDList.size();
                 for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
@@ -198,6 +199,14 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
                     if (Creature* pPyroguard = GetSingleCreatureFromStorage(NPC_EMBERSEER))
                     {
                         pPyroguard->SetInCombatWithZone();
+                    }
+
+                    if (Creature* pPyroguard = GetSingleCreatureFromStorage(NPC_EMBERSEER))
+                    {
+                        if (!pPyroguard->isInCombat())
+                        {
+                            SetData(TYPE_EMBERSEER, FAIL);
+                        }
                     }
                 }
             }
