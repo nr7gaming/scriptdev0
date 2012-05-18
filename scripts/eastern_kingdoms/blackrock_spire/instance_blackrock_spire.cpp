@@ -318,8 +318,6 @@ void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
             if (GetData(TYPE_EMBERSEER) != IN_PROGRESS)
             {
                 SetData(TYPE_EMBERSEER, IN_PROGRESS);
-                EmberseerStartet4 = false;
-                EmberseerStartet5 = false;
                 // set the mates in combat too
                 for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
                 {
@@ -373,48 +371,34 @@ void instance_blackrock_spire::DoSortRoomEventMobs()
 void instance_blackrock_spire::ProcessEmberseerEvent()
 {
     // check if already done or in progress
-    if (GetData(TYPE_EMBERSEER) == DONE)
+    if (GetData(TYPE_EMBERSEER) == DONE || GetData(TYPE_EMBERSEER) == IN_PROGRESS)
         return;
 
     // start to grow
-    if (GetData(TYPE_EMBERSEER) == IN_PROGRESS)
-    {
         if (Creature* pEmberseer = instance->GetCreature(m_uiEmberseerGUID))
         {
-            if (!EmberseerStartet4)
+            // remove encaging auras first
+            pEmberseer->RemoveAllAuras();
+            pEmberseer->CastSpell(pEmberseer, SPELL_EMBERSEER_GROW, true);
+        }
+        // remove the incarcerators flags and stop casting
+        if (!m_lIncanceratorGUIDList.empty())
+        {
+            for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
             {
-                // remove encaging auras first
-                pEmberseer->RemoveAllAuras();
-                pEmberseer->CastSpell(pEmberseer, SPELL_EMBERSEER_GROW, true);
-                EmberseerStartet5 = true;
+                if (Creature* pCreature = instance->GetCreature(*itr))
+                {
+                    if (pCreature->isAlive())
+                    {
+                        pCreature->CastStop();
+                        pCreature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
+                        pCreature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
+                    }
+                } 
             }
         }
     }
 
-    if (GetData(TYPE_EMBERSEER) == IN_PROGRESS)
-    {
-        if (!EmberseerStartet5)
-        {
-            // remove the incarcerators flags and stop casting
-            if (!m_lIncanceratorGUIDList.empty())
-            {
-                for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
-                {
-                    if (Creature* pCreature = instance->GetCreature(*itr))
-                    {
-                        if (pCreature->isAlive())
-                        {
-                            pCreature->CastStop();
-                            pCreature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_OOC_NOT_ATTACKABLE);
-                            pCreature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
-                            EmberseerStartet5 = true;
-                        }
-                    } 
-                }
-            }
-        }
-    }
-}
 
 void instance_blackrock_spire::DoUseEmberseerRunes()
 {

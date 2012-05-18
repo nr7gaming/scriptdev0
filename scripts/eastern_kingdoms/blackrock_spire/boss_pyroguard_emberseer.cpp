@@ -93,37 +93,6 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
             m_pInstance->SetData(TYPE_EMBERSEER, FAIL);
     }
 
-    void MoveInLineOfSight(Unit* target, const uint32 diff)
-    {
-        if (target && m_creature->GetDistance2d(target) <= 30)
-        {
-            if (m_creature->HasAura(SPELL_EMBERSEER_GROW))
-            {
-                if (uiSay1Timer <= diff)
-                {
-                    m_creature->MonsterTextEmote(EMOTE_1, m_creature, true);
-                    uiSay2Timer = 10000;
-                } else
-                    uiSay1Timer -= diff;
-
-                if (uiSay2Timer <= diff)
-                {
-                    m_creature->MonsterTextEmote(EMOTE_2, m_creature, true);
-                    uiSay3Timer = 10000;
-                } else
-                    uiSay2Timer -= diff;
-
-                if (uiSay3Timer <= diff)
-                {
-                    m_creature->MonsterTextEmote(EMOTE_3, m_creature, true);
-                    m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-                    m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
-                }
-            }
-        }
-    }
-
-
     void UpdateAI(const uint32 uiDiff)
     {
         // Return since we have no target
@@ -210,7 +179,6 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
             if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
             {
                 DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
-                Emberseer->CastSpell(Emberseer->GetPositionX(), Emberseer->GetPositionY(), Emberseer->GetPositionZ(), SPELL_ENCAGE, false);
                 uiEncageTimer = 10000;
             }
         } else
