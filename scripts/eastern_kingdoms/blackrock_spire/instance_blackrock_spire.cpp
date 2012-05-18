@@ -325,7 +325,14 @@ void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
                     if (Creature* pTemp = instance->GetCreature(*itr))
                     {
                         if (pCreature->getVictim())
+                        {
                             pTemp->AI()->AttackStart(pCreature->getVictim());
+                        }
+
+                        if (GetData(TYPE_EMBERSEER) == FAIL)
+                        {
+                            itr = m_lIncanceratorGUIDList.begin();
+                        }
 
                     }
                 }
