@@ -200,14 +200,6 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
                     {
                         pPyroguard->SetInCombatWithZone();
                     }
-
-                    if (Creature* pPyroguard = GetSingleCreatureFromStorage(NPC_EMBERSEER))
-                    {
-                        if (!pPyroguard->isInCombat())
-                        {
-                            SetData(TYPE_EMBERSEER, FAIL);
-                        }
-                    }
                 }
             }
             m_auiEncounter[1] = uiData;

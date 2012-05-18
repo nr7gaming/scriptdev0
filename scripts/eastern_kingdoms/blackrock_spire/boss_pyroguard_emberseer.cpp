@@ -170,6 +170,9 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
     void JustReachedHome()
     {
         Reset();
+        if (pInstance)
+            pInstance->SetData(TYPE_EMBERSEER, FAIL); 
+
     }
 
     void UpdateAI(const uint32 diff)
