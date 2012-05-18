@@ -192,16 +192,6 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
             m_creature->InterruptNonMeleeSpells(false);
         }
 
-        if (m_creature->isInCombat())
-        {
-            if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
-            {
-                Emberseer->SetInCombatWithZone();
-                Emberseer->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
-                Emberseer->SetFlag(UNIT_FIELD_FLAGS ,UNIT_FLAG_PACIFIED);
-            }
-        }
-
 
         //Return since we have no target
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())

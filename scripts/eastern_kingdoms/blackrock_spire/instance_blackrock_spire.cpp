@@ -183,7 +183,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
               //  DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
                // DoUseEmberseerRunes();
 
-                uint32 Count = m_lIncanceratorGUIDList.size();
+            /*    uint32 Count = m_lIncanceratorGUIDList.size();
                 for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
                 {
                     if (Creature* pCreature = instance->GetCreature(*itr))
@@ -202,7 +202,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
                         Emberseer->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
                         Emberseer->RemoveFlag(UNIT_FIELD_FLAGS ,UNIT_FLAG_PACIFIED);
                     }
-                }
+                } */
 
             }
             m_auiEncounter[1] = uiData;
@@ -328,9 +328,7 @@ void instance_blackrock_spire::OnCreatureEnterCombat(Creature* pCreature)
                     if (Creature* pTemp = instance->GetCreature(*itr))
                     {
                         if (pCreature->getVictim())
-                        {
                             pTemp->AI()->AttackStart(pCreature->getVictim());
-                        }
                     }
                 }
             }
