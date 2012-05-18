@@ -73,7 +73,12 @@ enum
 
     SPELL_EMBERSEER_GROW        = 16048,
     SPELL_ENCAGE                = 16045
+
+
 };
+
+
+
 
 
 

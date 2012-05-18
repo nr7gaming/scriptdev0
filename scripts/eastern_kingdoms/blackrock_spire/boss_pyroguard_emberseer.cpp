@@ -210,6 +210,7 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
             if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
             {
                 DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
+                Emberseer->CastSpell(Emberseer->GetPositionX(), Emberseer->GetPositionY(), Emberseer->GetPositionZ(), SPELL_ENCAGE, false);
                 uiEncageTimer = 10000;
             }
         } else
@@ -218,6 +219,14 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
         if (m_creature->isInCombat())
         {
             m_creature->InterruptNonMeleeSpells(false);
+        }
+
+        if (m_creature->isInCombat())
+        {
+            if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
+            {
+                Emberseer->SetInCombatWithZone();
+            }
         }
 
 
