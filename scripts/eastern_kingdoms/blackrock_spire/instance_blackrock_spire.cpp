@@ -27,12 +27,13 @@ EndScriptData */
 #include "precompiled.h"
 #include "blackrock_spire.h"
 
+/*
 enum
 {
     AREATRIGGER_ENTER_UBRS      = 2046,
     AREATRIGGER_STADIUM         = 2026
 };
-
+ */
 /* Areatrigger
 1470 Instance Entry
 1628 LBRS, between Spiders and Ogres
@@ -141,6 +142,8 @@ void instance_blackrock_spire::OnCreatureCreate(Creature* pCreature)
         case NPC_ELITE_GUARD:
             m_lDrakkisathNpcGUIDList.push_back(pCreature->GetObjectGuid());
             break;
+        case NPC_BLACKHAND_DREADWEAVER:
+            break;
     }
 }
 
@@ -151,11 +154,12 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
         case TYPE_ROOM_EVENT:
             if (uiData == DONE)
                 DoUseDoorOrButton(m_uiEmberseerInDoorGUID);
+            DoUseEmberseerRunes();
             m_auiEncounter[0] = uiData;
             break;
         case TYPE_EMBERSEER:
             DoUseDoorOrButton(m_uiEmberseerCombatDoorGUID);
-            DoUseEmberseerRunes();
+         //   DoUseEmberseerRunes();
             if (uiData == DONE)
             {
                 DoUseDoorOrButton(m_uiEmberseerOutDoorGUID);
@@ -164,7 +168,7 @@ void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
             else if (uiData == FAIL)
             {
                 // reset runes
-                DoUseEmberseerRunes();
+             //   DoUseEmberseerRunes();
                 // respawn incarcerators if fail
                 // the fail is set only in boss script; if party wipes during the incarcerators fight, the boss will fight the incarcerators then will reset (wowhead)
                 for (GUIDList::const_iterator itr = m_lIncanceratorGUIDList.begin(); itr != m_lIncanceratorGUIDList.end(); itr++)
@@ -382,7 +386,7 @@ void instance_blackrock_spire::ProcessEmberseerEvent()
         {
             // remove encaging auras first
             pEmberseer->RemoveAllAuras();
-            pEmberseer->CastSpell(pEmberseer, SPELL_EMBERSEER_GROW, true);
+//            pEmberseer->CastSpell(pEmberseer, SPELL_EMBERSEER_GROW, true);
         }
         // remove the incarcerators flags and stop casting
         if (!m_lIncanceratorGUIDList.empty())

@@ -26,21 +26,25 @@ EndScriptData */
 #include "blackrock_spire.h"
 
 
-#define   SPELL_FIRENOVA		  16079					  //23462, 16079 is the spell id from old.wowhead.com
-#define   SPELL_FLAMEBUFFET		  16536						  //23341
-#define   SPELL_PYROBLAST         20228                         // guesswork, but best fitting in spells-area, was 17274 (has mana cost)
+enum Spells
+{
+    SPELL_ENCAGED_EMBERSEER         = 15282,    // Self on spawn
+    SPELL_FIRE_SHIELD_TRIGGER       = 13377,    // self on spawn
+    SPELL_FREEZE_ANIM               = 16245,    // Self on event start
+    SPELL_EMBERSEER_GROWING         = 16048,    // Self on event start
+    SPELL_EMBERSEER_FULL_STRENGTH   = 16047,    // Embersser Full Strength
+    SPELL_FIRENOVA                  = 16079,
+    SPELL_FLAMEBUFFET               = 16536,
+    SPELL_PYROBLAST                 = 17274
+};
 
-// BLACKHAND_INCANCERATOR spells
-//#define   SPELL_ENCAGE            16045
+//#define   SPELL_FIRENOVA		  16079					  //23462, 16079 is the spell id from old.wowhead.com
+//#define   SPELL_FLAMEBUFFET		  16536						  //23341
+//#define   SPELL_PYROBLAST         20228                         // guesswork, but best fitting in spells-area, was 17274 (has mana cost)
+
+
 #define   SPELL_STRIKE            15580
 
-//#define   NPC_EMBERSEER           9816
-/*
-#define   SPELL_EMBERSEER_GROW    16048 */
-
-#define EMOTE_1 "Ich werde Staerker 1"
-#define EMOTE_2 "Ich werde Staerker 2"
-#define EMOTE_3 "Ich werde Staerker 3"
 
 
 
@@ -64,15 +68,28 @@ struct MANGOS_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
 
     void Reset()
     {
+        if (m_pInstance->GetData(TYPE_EMBERSEER) == IN_PROGRESS)
+            OpenDoors(false);
+        m_pInstance->SetData(TYPE_EMBERSEER, NOT_STARTED);
+        DoCast(m_creature, SPELL_ENCAGED_EMBERSEER);
         m_uiFireNovaTimer = 6000;
         m_uiFlameBuffetTimer = 3000;
         m_uiPyroBlastTimer = 14000;
-       // m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE);
 
         uiSay1Timer = 10000;
         uiSay2Timer = 20000;
         uiSay3Timer = 30000;
+    }
+
+    void OpenDoors(bool Boss_Killed)
+    {
+        if (GameObject* door1 = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_EMBERSEER_IN)))
+            door1->SetGoState(GO_STATE_ACTIVE);
+        if (GameObject* door2 = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_DOORS)))
+            door2->SetGoState(GO_STATE_ACTIVE);
+        if (Boss_Killed)
+            if (GameObject* door3 = m_creature->GetMap()->GetGameObject(m_pInstance->GetData64(GO_EMBERSEER_OUT)))
+                door3 ->SetGoState(GO_STATE_ACTIVE);
     }
 
     void Aggro(Unit* pWho)
@@ -181,7 +198,7 @@ struct MANGOS_DLL_DECL npc_blackhandAI : public ScriptedAI
         {
             if (Creature* Emberseer = GetClosestCreatureWithEntry(m_creature, NPC_EMBERSEER , 150.00f))
             {
-                DoCastSpellIfCan(Emberseer, SPELL_ENCAGE);
+                DoCastSpellIfCan(Emberseer, SPELL_ENCAGED_EMBERSEER);
                 uiEncageTimer = 10000;
             }
         } else

@@ -42,6 +42,7 @@ enum
     NPC_ELITE_GUARD             = 10814,
     NPC_REND                    = 10429,
     NPC_EMBERSEER               = 9816,
+    NPC_BLACKHAND_DREADWEAVER   = 9817,
 
     // Doors
     GO_EMBERSEER_IN             = 175244,
@@ -70,9 +71,8 @@ enum
     GO_EMBERSEER_RUNE_7         = 175266,
     MAX_DRAGONSPIRE_HALL_RUNES      = 7,
 
-
-    SPELL_EMBERSEER_GROW        = 16048,
-    SPELL_ENCAGE                = 16045
+    AREATRIGGER_ENTER_UBRS      = 2046,
+    AREATRIGGER_STADIUM         = 2026
 
 
 };
