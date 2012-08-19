@@ -58,57 +58,49 @@ struct MANGOS_DLL_DECL boss_king_gordokAI : public ScriptedAI
 		// Return since we have no target
 		if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
 			return;
-	
 
-	// Summon Mizzle the crafty for "King of the gordok" wenn King Gordok has 0.01%(3%) life
-	if (!m_bSummonMizzle && m_creature->GetHealthPercent() < 3.00f)
-	{
-		m_creature->SummonCreature(NPC_MIZZLE_THE_CRAFTY, m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), 0, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 2500000);
-		m_bSummonMizzle = true;
-		
-	}
-	
-	// Berserker_charge_Timer
-	if (uiBerserkerChargeTimer < uiDiff)
-	{
-		if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
-		DoCastSpellIfCan(pTarget, SPELL_BERSERKER_CHARGE);
-		uiBerserkerChargeTimer = 20000;
-	}
-	else
-		uiBerserkerChargeTimer -= uiDiff;
 
-	// MortalStrikeTimer
-	if (uiMortalStrikeTimer < uiDiff)
-	{
-		if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
-		DoCastSpellIfCan(pTarget, SPELL_MORTAL_STRIKE);
-		uiMortalStrikeTimer = 16500;
-	}
-	else
-		uiMortalStrikeTimer -= uiDiff;
+	    // Berserker_charge_Timer
+	    if (uiBerserkerChargeTimer < uiDiff)
+	    {
+		    if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+		    DoCastSpellIfCan(pTarget, SPELL_BERSERKER_CHARGE);
+		    uiBerserkerChargeTimer = 20000;
+	    }
+	    else
+		    uiBerserkerChargeTimer -= uiDiff;
 
-	// SunderArmorTimer
-	if (uiSunderArmorTimer < uiDiff)
-	{
-		if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
-		DoCastSpellIfCan(pTarget, SPELL_SUNDER_ARMOR);
-		uiSunderArmorTimer = 6250;
-	}
-	else
-		uiSunderArmorTimer -= uiDiff;
+	    // MortalStrikeTimer
+	    if (uiMortalStrikeTimer < uiDiff)
+	    {
+		    if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+		    DoCastSpellIfCan(pTarget, SPELL_MORTAL_STRIKE);
+		    uiMortalStrikeTimer = 16500;
+	    }
+	    else
+		    uiMortalStrikeTimer -= uiDiff;
 
-	// WarStompTimer
-	if (uiWarStompTimer < uiDiff)
-	{
-		if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
-		DoCastSpellIfCan(pTarget, SPELL_WAR_STOMP);
-		uiWarStompTimer = 9000;
-	}
-	else
-		uiWarStompTimer -= uiDiff;
+	    // SunderArmorTimer
+	    if (uiSunderArmorTimer < uiDiff)
+	    {
+		    if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+		    DoCastSpellIfCan(pTarget, SPELL_SUNDER_ARMOR);
+		    uiSunderArmorTimer = 6250;
+	    }
+	    else
+		    uiSunderArmorTimer -= uiDiff;
 
-	DoMeleeAttackIfReady();
+	    // WarStompTimer
+	    if (uiWarStompTimer < uiDiff)
+	    {
+		    if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+		    DoCastSpellIfCan(pTarget, SPELL_WAR_STOMP);
+		    uiWarStompTimer = 9000;
+	    }
+	    else
+		    uiWarStompTimer -= uiDiff;
+
+	    DoMeleeAttackIfReady();
 	}
 };
 
