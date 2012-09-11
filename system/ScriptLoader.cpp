@@ -134,6 +134,7 @@ extern void AddSC_instance_stratholme();
 extern void AddSC_stratholme();
 extern void AddSC_instance_sunken_temple();                 //sunken_temple
 extern void AddSC_sunken_temple();
+extern void AddSC_boss_jammalan();
 extern void AddSC_boss_archaedas();                         //uldaman
 extern void AddSC_uldaman();
 extern void AddSC_instance_uldaman();
@@ -181,6 +182,8 @@ extern void AddSC_wetlands();
 extern void AddSC_instance_blackfathom_deeps();             //blackfathom_deeps
 extern void AddSC_dire_maul();                              //dire_maul
 extern void AddSC_instance_dire_maul();
+extern void AddSC_boss_king_gordok();
+extern void AddSC_Mizzle();
 extern void AddSC_boss_celebras_the_cursed();               //maraudon
 extern void AddSC_boss_landslide();
 extern void AddSC_boss_noxxion();
@@ -235,6 +238,9 @@ extern void AddSC_thousand_needles();
 extern void AddSC_thunder_bluff();
 extern void AddSC_ungoro_crater();
 extern void AddSC_winterspring();
+
+// extern
+extern void AddSC_boss_ribbly();
 
 void AddScripts()
 {
@@ -353,6 +359,7 @@ void AddScripts()
     AddSC_stratholme();
     AddSC_instance_sunken_temple();                         //sunken_temple
     AddSC_sunken_temple();
+	AddSC_boss_jammalan();
     AddSC_boss_archaedas();                                 //uldaman
     AddSC_uldaman();
     AddSC_instance_uldaman();
@@ -399,6 +406,8 @@ void AddScripts()
     AddSC_instance_blackfathom_deeps();                     //blackfathom_deeps
     AddSC_dire_maul();                                      //dire_maul
     AddSC_instance_dire_maul();
+	AddSC_boss_king_gordok();								// dire maul - Boss King Gordok
+	AddSC_Mizzle();
     AddSC_boss_celebras_the_cursed();                       //maraudon
     AddSC_boss_landslide();
     AddSC_boss_noxxion();
@@ -453,5 +462,8 @@ void AddScripts()
     AddSC_thunder_bluff();
     AddSC_ungoro_crater();
     AddSC_winterspring();
+
+    // extern
+    AddSC_boss_ribbly();
 
 }

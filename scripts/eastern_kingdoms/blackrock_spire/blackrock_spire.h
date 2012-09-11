@@ -40,6 +40,9 @@ enum
     NPC_GYTH                    = 10339,
     NPC_DRAKKISATH              = 10363,
     NPC_ELITE_GUARD             = 10814,
+    NPC_REND                    = 10429,
+    NPC_EMBERSEER               = 9816,
+    NPC_BLACKHAND_DREADWEAVER   = 9817,
 
     // Doors
     GO_EMBERSEER_IN             = 175244,
@@ -66,10 +69,18 @@ enum
     GO_EMBERSEER_RUNE_5         = 175268,
     GO_EMBERSEER_RUNE_6         = 175267,
     GO_EMBERSEER_RUNE_7         = 175266,
+    MAX_DRAGONSPIRE_HALL_RUNES      = 7,
+
+    AREATRIGGER_ENTER_UBRS      = 2046,
+    AREATRIGGER_STADIUM         = 2026
 
 
-    SPELL_EMBERSEER_GROW        = 16048,
 };
+
+
+
+
+
 
 class MANGOS_DLL_DECL instance_blackrock_spire : public ScriptedInstance
 {
@@ -82,6 +93,7 @@ class MANGOS_DLL_DECL instance_blackrock_spire : public ScriptedInstance
         void OnObjectCreate(GameObject* pGo);
         void OnCreatureCreate(Creature* pCreature);
         void OnCreatureEnterCombat(Creature* pCreature);
+        void OnCreatureOutOfCombat(Creature* pCreature);
 
         void SetData(uint32 uiType, uint32 uiData);
         void SetData64(uint32 uiType, uint64 uiData);

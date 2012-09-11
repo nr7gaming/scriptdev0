@@ -1,7 +1,5 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -26,12 +24,12 @@ EndScriptData */
 
 #include "precompiled.h"
 
-enum
-{
-    SPELL_WRATH             = 21807,
-    SPELL_ENTANGLINGROOTS   = 12747,
-    SPELL_CORRUPT_FORCES    = 21968
-};
+
+#define SPELL_WRATH              21807
+#define SPELL_ENTANGLINGROOTS    12747
+#define SPELL_CORRUPT_FORCES     21968
+
+
 
 struct MANGOS_DLL_DECL celebras_the_cursedAI : public ScriptedAI
 {
@@ -40,12 +38,14 @@ struct MANGOS_DLL_DECL celebras_the_cursedAI : public ScriptedAI
     uint32 Wrath_Timer;
     uint32 EntanglingRoots_Timer;
     uint32 CorruptForces_Timer;
+	
 
     void Reset()
     {
         Wrath_Timer = 8000;
         EntanglingRoots_Timer = 2000;
         CorruptForces_Timer = 30000;
+		
     }
 
     void JustDied(Unit* Killer)
