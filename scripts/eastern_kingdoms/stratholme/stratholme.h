@@ -20,6 +20,7 @@
 #ifndef DEF_STRATHOLME_H
 #define DEF_STRATHOLME_H
 
+#define NPC_YSIDA_TRIGGER           16100
 enum
 {
     MAX_ENCOUNTER               = 8,
@@ -49,7 +50,7 @@ enum
     NPC_MINDLESS_UNDEAD         = 11030,                    // Zombies summoned after Ramstein
     NPC_BLACK_GUARD             = 10394,                    // Zombies summoned after Ramstein
     NPC_YSIDA                   = 16031,
-    NPC_YSIDA_TRIGGER           = 16100,
+   // NPC_YSIDA_TRIGGER           = 16100,
     NPC_CRIMSON_INITIATE        = 10420,                    // A couple of them related to spawn Timmy
     NPC_CRIMSON_GALLANT         = 10424,
     NPC_CRIMSON_GUARDSMAN       = 10418,
@@ -151,6 +152,7 @@ class MANGOS_DLL_DECL instance_stratholme : public ScriptedInstance
         uint32 m_uiBarthilasRunTimer;
         uint32 m_uiMindlessSummonTimer;
         uint32 m_uiSlaugtherSquareTimer;
+        uint64 m_ysidaTriggerGUID;
 
         uint32 m_uiYellCounter;
         uint32 m_uiMindlessCount;

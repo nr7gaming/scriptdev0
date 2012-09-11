@@ -1,7 +1,5 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -25,30 +23,38 @@ SDCategory: Blackrock Spire
 EndScriptData */
 
 #include "precompiled.h"
+#include "blackrock_spire.h"
 
-enum
-{
-    SPELL_FIRENOVA       = 23462,
-    SPELL_CLEAVE         = 20691,
-    SPELL_CONFLIGURATION = 16805,
-    SPELL_THUNDERCLAP    = 15548                            //Not sure if right ID. 23931 would be a harder possibility.
-};
+
+//#define    SPELL_FIRENOVA        23462
+#define    SPELL_CLEAVE			 15284							 //20691
+#define    SPELL_CONFLIGURATION  16805
+//#define    SPELL_THUNDERCLAP     15548                            //Not sure if right ID. 23931 would be a harder possibility.
+#define		SPELL_FLAMESTRIKE	16419
+#define		SPELL_PIERCEARMOR	6016
+#define		SPELL_RAGE			16789
+
 
 struct MANGOS_DLL_DECL boss_drakkisathAI : public ScriptedAI
 {
     boss_drakkisathAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
-    uint32 m_uiFireNovaTimer;
+    //uint32 m_uiFireNovaTimer;
     uint32 m_uiCleaveTimer;
     uint32 m_uiConfligurationTimer;
-    uint32 m_uiThunderclapTimer;
-
+   // uint32 m_uiThunderclapTimer;
+	uint32 m_uiFlameStrikeTimer;
+	uint32 m_uiPierceArmorTimer;
+	uint32 m_uiRageTimer;
     void Reset()
     {
-        m_uiFireNovaTimer       = 6000;
+       // m_uiFireNovaTimer       = 6000;
         m_uiCleaveTimer         = 8000;
         m_uiConfligurationTimer = 15000;
-        m_uiThunderclapTimer    = 17000;
+        //m_uiThunderclapTimer    = 17000;
+		m_uiFlameStrikeTimer	= 25000;
+		m_uiPierceArmorTimer	= 17000;
+		m_uiRageTimer			= 45000;
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -56,7 +62,7 @@ struct MANGOS_DLL_DECL boss_drakkisathAI : public ScriptedAI
         // Return since we have no target
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
-
+		/*
         // FireNova
         if (m_uiFireNovaTimer < uiDiff)
         {
@@ -64,7 +70,7 @@ struct MANGOS_DLL_DECL boss_drakkisathAI : public ScriptedAI
             m_uiFireNovaTimer = 10000;
         }
         else
-            m_uiFireNovaTimer -= uiDiff;
+            m_uiFireNovaTimer -= uiDiff; */
 
         // Cleave
         if (m_uiCleaveTimer < uiDiff)
@@ -78,12 +84,12 @@ struct MANGOS_DLL_DECL boss_drakkisathAI : public ScriptedAI
         // Confliguration
         if (m_uiConfligurationTimer < uiDiff)
         {
-            DoCastSpellIfCan(m_creature->getVictim(), SPELL_CONFLIGURATION, 0, m_creature->getVictim()->GetObjectGuid());
+            DoCastSpellIfCan(m_creature->getVictim(), SPELL_CONFLIGURATION, 0, m_creature->getVictim()->GetGUID());
             m_uiConfligurationTimer = 18000;
         }
         else
             m_uiConfligurationTimer -= uiDiff;
-
+/*
         // Thunderclap
         if (m_uiThunderclapTimer < uiDiff)
         {
@@ -91,7 +97,36 @@ struct MANGOS_DLL_DECL boss_drakkisathAI : public ScriptedAI
             m_uiThunderclapTimer = 20000;
         }
         else
-            m_uiThunderclapTimer -= uiDiff;
+            m_uiThunderclapTimer -= uiDiff; */
+
+		// Flame Strike
+		if (m_uiFlameStrikeTimer < uiDiff)
+		{
+			DoCastSpellIfCan(m_creature, SPELL_FLAMESTRIKE);
+			m_uiFlameStrikeTimer = 25500;
+		}
+		else
+			m_uiFlameStrikeTimer -= uiDiff;
+
+		// Pierce Armor
+		if (m_uiPierceArmorTimer < uiDiff)
+		{
+			DoCastSpellIfCan(m_creature, SPELL_PIERCEARMOR);
+			m_uiPierceArmorTimer = 18000;
+		}
+		else
+			m_uiPierceArmorTimer -= uiDiff;
+
+		// Rage
+		if (m_uiRageTimer < uiDiff)
+		{
+			DoCastSpellIfCan(m_creature, SPELL_RAGE);
+				m_uiRageTimer = 48000;
+		}
+		else
+			m_uiRageTimer -= uiDiff;
+
+
 
         DoMeleeAttackIfReady();
     }

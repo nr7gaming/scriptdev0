@@ -983,10 +983,6 @@
 					Name="deadmines"
 					>
 					<File
-						RelativePath="..\scripts\eastern_kingdoms\deadmines\boss_mr_smite.cpp"
-						>
-					</File>
-					<File
 						RelativePath="..\scripts\eastern_kingdoms\deadmines\deadmines.cpp"
 						>
 					</File>
@@ -1296,6 +1292,10 @@
 					</File>
 					<File
 						RelativePath="..\scripts\eastern_kingdoms\sunken_temple\sunken_temple.h"
+						>
+					</File>
+					<File
+						RelativePath="..\scripts\eastern_kingdoms\sunken_temple\boss_jammalan.cpp"
 						>
 					</File>
 				</Filter>
