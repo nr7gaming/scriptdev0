@@ -25,6 +25,7 @@ SDCategory: World Map Scripts
 EndScriptData */
 
 #include "precompiled.h"
+#include "sc_instance.h"
 
 /* *********************************************************
  *                  EASTERN KINGDOMS
