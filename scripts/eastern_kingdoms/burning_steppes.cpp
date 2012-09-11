@@ -1,7 +1,4 @@
-/*
- * Copyright (C) 2006-2011 ScriptDev2 <http://www.scriptdev2.com/>
- * Copyright (C) 2010-2011 ScriptDev0 <http://github.com/mangos-zero/scriptdev0>
- *
+/* Copyright (C) 2006 - 2012 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -20,7 +17,7 @@
 /* ScriptData
 SDName: Burning_Steppes
 SD%Complete: 100
-SDComment: Quest support: 4121, 4224, 4866
+SDComment: Quest support: 4121, 4122, 4224, 4866
 SDCategory: Burning Steppes
 EndScriptData */
 
@@ -55,8 +52,8 @@ struct MANGOS_DLL_DECL npc_ragged_johnAI : public ScriptedAI
 
         if (!m_creature->getVictim() && who->isTargetableForAttack() && (m_creature->IsHostileTo(who)) && who->isInAccessablePlaceFor(m_creature))
         {
-            //if (!m_creature->canFly() && m_creature->GetDistanceZ(who) > CREATURE_Z_ATTACK_RANGE)
-              //  return;
+            if (!m_creature->CanFly() && m_creature->GetDistanceZ(who) > CREATURE_Z_ATTACK_RANGE)
+                return;
 
             float attackRadius = m_creature->GetAttackDistance(who);
             if (m_creature->IsWithinDistInMap(who, attackRadius) && m_creature->IsWithinLOSInMap(who))
@@ -447,7 +444,7 @@ void AddSC_burning_steppes()
     pNewScript = new Script;
     pNewScript->Name = "npc_ragged_john";
     pNewScript->GetAI = &GetAI_npc_ragged_john;
-    pNewScript->pGossipHello = &GossipHello_npc_ragged_john;
+    pNewScript->pGossipHello =  &GossipHello_npc_ragged_john;
     pNewScript->pGossipSelect = &GossipSelect_npc_ragged_john;
     pNewScript->RegisterSelf();
 
